@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="salesperson_filter_tree_view.Selection"
+       t-inhit="web.ListRenderer" t-inherit-mode="extension"
+       owl="1">
+        <xpath epr="//div[hasclass('o_view_nocontent')]" position="before">
+            <div>Selection:
+                <select t-model="state.color">
+                    <option value="">Select a color</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                </select>
+            </div>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name ="name">view.order.form.inherit.sale.state</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
+            </xpath>
+            <xpath expr="//header/field[@name='state']" position="before">
+                <field name="first_user" invisible="1"/>
+                <field name="second_user" invisible="1"/>
+                <button string="Approve" type="object" class="oe_highlight" invisible="first_user != '1' or state not in ('to_approve') " name="approve_button"/>
+                <button string="Second Approval"  type="object" class="oe_highlight" invisible="second_user != '1' or state not in ('second_approval')" name="second_approval_button"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
