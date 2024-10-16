@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="selection_list" name="Room Snippet">
+<!--        <section class="selection_list">-->
+<!--        </section>-->
+    </template>
+</odoo>

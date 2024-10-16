@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-name="salesperson_filter_tree_view.Selection"
-       t-inhit="web.ListRenderer" t-inherit-mode="extension"
+       t-inherit="web.ListRenderer" t-inherit-mode="extension"
        owl="1">
-        <xpath epr="//div[hasclass('o_view_nocontent')]" position="before">
+        <xpath expr="//list" position="before">
             <div>Selection:
-                <select t-model="state.color">
-                    <option value="">Select a color</option>
-                    <option value="red">Red</option>
-                    <option value="blue">Blue</option>
+                <select name="partner_id">
+                    <option value="">select...</option>
+                    <t t-foreach="partner or []" t-as="partner_id">
+                        <option t-att-value="partner_id.id" class="d-none">
+                            <t t-esc="partner_id.name"/>
+                        </option>
+                    </t>
                 </select>
             </div>
         </xpath>
     </t>
 </templates>
+

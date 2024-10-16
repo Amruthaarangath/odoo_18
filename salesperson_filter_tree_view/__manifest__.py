@@ -1,12 +1,19 @@
 {
-    'name': "Salesperson Filter ",
+    'name': "Salesperson Filter tree View ",
     'version': '1.0',
     'summary': 'Salesperson Filter Tree View',
     'description': "Salesperson Filter Tree View",
-    'depends': ['base'],
+    'depends': ['base','sale','web'],
+
+'data': [
+              # 'views/saleperson_filter_view_inherit.xml',
+
+    ],
+
 'assets': {
     'web.assets_backend': [
-            'salesperson_filter_tree_view/static/src/xml/saleperson_filter_view_inherit.xml',
+        'salesperson_filter_tree_view/static/src/xml/saleperson_filter_view_inherit.xml',
+        'salesperson_filter_tree_view/static/src/js/salesperson_filter_view.js'
 ],
 },
 
