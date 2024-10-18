@@ -15,24 +15,24 @@ class CustomListController extends ListController{
         this.orm = useService("orm")
         this.state = useState({
             partner_id : [],
-        });
+            partner: ''
+       });
         onWillStart(async ()=>{
             this.partner_id = await this.orm.searchRead('res.users',[], ['id','name']);
             this.state.partner_id = this.partner_id
             console.log(this.partner_id,"idididi")
-
     });
-//    updateFilter(partnerId) {
-//        const filters = partnerId ? [[['user_id', '=', partnerId]]] : [];
-//        console.log("hyyyy")
-//        this.updateFilter(filters);
-//    }
 
-        }
-    updateFilter(partner_id) {
-        const filters = partner_id ? [[['user_id', '=', partner_id]]] : [];
-        console.log("hyyyy",filters)
+    }
+    updateFilter() {
+        console.log("ssss", this.state.partner)
+            let partnerId = this.state.partner
+        const filters = partnerId ? [[['user_id', '=', partnerId]]] : [];
+        console.log("hiii",filters)
         this.updateFilter(filters);
+//        self.updateFilter(filters).push
+//        this.updateFilter();
+
     }
 }
 CustomListController.template = "salesperson_filter_tree_view.Selection"
