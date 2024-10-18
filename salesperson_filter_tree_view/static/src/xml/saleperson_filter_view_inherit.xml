@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-name="salesperson_filter_tree_view.Selection"
-       t-inherit="web.ListRenderer" t-inherit-mode="extension"
-       owl="1">
-        <xpath expr="//list" position="before">
-            <div>Selection:
-                <select name="partner_id">
-                    <option value="">select...</option>
-                    <t t-foreach="partner or []" t-as="partner_id">
-                        <option t-att-value="partner_id.id" class="d-none">
-                            <t t-esc="partner_id.name"/>
-                        </option>
-                    </t>
-                </select>
+       t-inherit="web.ListView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <div>Sales person:
+                <div class="col-md-5">
+                    <select id="partner_id" name="Sales person">
+                        <option value="">select...</option>
+                            <t t-log="state.partner_id"/>
+                                <t t-foreach="state.partner_id" t-as="partner_id" t-key="partner_id.id">
+                                    <option t-att-value="partner_id.id">
+                                        <t t-out="partner_id.name"/>
+                                    </option>
+                                </t>
+                    </select>
+                </div>
             </div>
         </xpath>
     </t>

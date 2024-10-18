@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="selection_list" name="Room Snippet">
-<!--        <section class="selection_list">-->
-<!--        </section>-->
-    </template>
+    <record id="sales_person_inherit_filter" model="ir.ui.view">
+        <field name="name">crm.lead.view.list.salesperson</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="js_class">salesperson_filter</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>

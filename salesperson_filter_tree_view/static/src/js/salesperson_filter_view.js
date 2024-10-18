@@ -1,49 +1,45 @@
 /** @odoo-module **/
-import { ListRenderer } from "@web/views/list/list_renderer";
-import { Component } from "@odoo/owl";
-import { listView } from '@web/views/list/list_view';
 import { registry } from "@web/core/registry";
-import { browser } from "@web/core/browser/browser";
+import { ListRenderer } from "@web/views/list/list_renderer";
+import { listView } from "@web/views/list/list_view";
+import { Component, onWillStart, useState} from "@odoo/owl";
+import { useService } from "@web/core/utils/hooks";
+import { ListController } from "@web/views/list/list_controller";
+import { Many2XAutocomplete } from "@web/views/fields/relational_utils";
 
 
-// the controller usually contains the Layout and the renderer.
-class CustomListController extends ListRenderer {
-    static template = "salesperson_filter_tree_view.Selection";
-    setup() {
-       super.setup();
-       }
-       async onClick(ev) {
-        console.log("yy")
+class CustomListController extends ListController{
+    setup(){
+        super.setup();
+
+        this.orm = useService("orm")
+        this.state = useState({
+            partner_id : [],
+        });
+        onWillStart(async ()=>{
+            this.partner_id = await this.orm.searchRead('res.users',[], ['id','name']);
+            this.state.partner_id = this.partner_id
+            console.log(this.partner_id,"idididi")
+
+    });
+//    updateFilter(partnerId) {
+//        const filters = partnerId ? [[['user_id', '=', partnerId]]] : [];
+//        console.log("hyyyy")
+//        this.updateFilter(filters);
+//    }
+
+        }
+    updateFilter(partner_id) {
+        const filters = partner_id ? [[['user_id', '=', partner_id]]] : [];
+        console.log("hyyyy",filters)
+        this.updateFilter(filters);
     }
-//    static template = "web.WebClient";
-//    static template = "web.WebClient";
-//    console.log("hyyyy")
-    // Your logic here, override or insert new methods...
-    // if you override setup(), don't forget to call super.setup()
 }
-
-
-CustomListController.template = "salesperson_filter_tree_view.Selection";
-//console.log("hyy")
-//    selector: '.selection_list',
-//            events: {
-//            'change #partner_id': 'render_function'
-//            },
-//    render_function : function(){
-//    var self = this;
-//    var template_window =  $(QWeb.render("salesperson_filter_tree_view.Selection", {
-////            console.log("hlo")
-//            partners : self.partners,
-//            }));
-//    template_window.appendTo(this.$el);
-//  },
-
-
-export const customListView = {
-    ...listView, // contains the default Renderer/Controller/Model
+CustomListController.template = "salesperson_filter_tree_view.Selection"
+export const CustomListView = {
+    ...listView,
     Controller: CustomListController,
 };
 
-// Register it to the views registry
-registry.category("views").add("custom_list", customListView);
-
+registry.category("views").add('salesperson_filter', CustomListView);
+console.log('registry',registry.category("views"))
