@@ -6,6 +6,8 @@ import { Component, onWillStart, useState} from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { ListController } from "@web/views/list/list_controller";
 import { Many2XAutocomplete } from "@web/views/fields/relational_utils";
+import { ForecastSearchModel } from "@crm/views/forecast_search_model";
+import { SearchModel } from "@web/search/search_model";
 
 
 class CustomListController extends ListController{
@@ -27,9 +29,12 @@ class CustomListController extends ListController{
     updateFilter() {
         console.log("ssss", this.state.partner)
             let partnerId = this.state.partner
-        const filters = partnerId ? [[['user_id', '=', partnerId]]] : [];
-        console.log("hiii",filters)
-        this.updateFilter(filters);
+//            let partnerId = partnerint.name
+//        const filters = partnerId ? [[['user_id', '=', partnerId]]] : [];
+        const updated_filters = this.env.searchModel.splitAndAddDomain(`[['user_id', '=', 'Marc Demo']]`)
+        console.log("hiii",partnerId)
+        console.log("hloooo",updated_filters)
+//        this.updateFilter(filters);
 //        self.updateFilter(filters).push
 //        this.updateFilter();
 

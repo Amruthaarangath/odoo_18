@@ -6,6 +6,7 @@
             <div>Sales person:
                 <div class="col-md-5">
                     <select id="partner_id" name="Sales person" t-on-change="updateFilter" t-model="state.partner">
+                        <t t-log="state.partner"/>
                         <option value="">select...</option>
                             <t t-log="this"/>
                                 <t t-foreach="state.partner_id" t-as="partner_id" t-key="partner_id.id">
