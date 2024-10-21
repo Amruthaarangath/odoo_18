@@ -5,14 +5,12 @@
         <xpath expr="//t[@t-component='props.Renderer']" position="before">
             <div>Sales person:
                 <div class="col-md-5">
-                    <select id="partner_id" name="Sales person" t-on-change="updateFilter" t-model="state.partner">
-                        <t t-log="state.partner"/>
+                    <select class="o_partner_id form-select w-auto bg-light" id="partner_id" name="Sales person" t-on-change="updateFilter" t-model="state.partner">
+                        <t t-log="state.partner_id"/>
                         <option value="">select...</option>
                             <t t-log="this"/>
                                 <t t-foreach="state.partner_id" t-as="partner_id" t-key="partner_id.id">
-                                    <option t-att-value="partner_id.id">
-                                        <t t-out="partner_id.name"/>
-                                        <t t-log="partner_id.name"/>
+                                    <option t-att-value="partner_id.display_name" t-esc="partner_id.display_name">
                                     </option>
                                 </t>
                     </select>
@@ -21,4 +19,3 @@
         </xpath>
     </t>
 </templates>
-
