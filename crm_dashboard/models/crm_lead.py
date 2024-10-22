@@ -16,14 +16,18 @@ class CrmLead(models.Model):
         currency = company_id.currency_id.symbol
         expected_revenue = sum(my_opportunity.mapped('expected_revenue'))
         invoice_count = self.env['sale.order'].search([('state','!=','posted'),('user_id','=',self.env.user.id)])
-        revenue = sum(invoice_count.mapped('amount_total'))
+        revenue_total = sum(invoice_count.mapped('amount_total'))
+        won_leads = self.env['crm.stage'].search([('is_won', '=', True)])
 
-        print("revenue",revenue)
-        print("invoice_count",invoice_count)
+
+        # stages = self.env['crm.stage'].browse(4)
+
+
+        print("stages",won_leads.id)
         return {
             'total_leads': len(my_leads),
             'total_opportunity': len(my_opportunity),
             'expected_revenue': expected_revenue,
             'currency': currency,
-            'revenue': revenue,
+            'revenue_total': revenue_total,
         }

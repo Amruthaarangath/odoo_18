@@ -3,7 +3,7 @@
     'version': '1.0',
     'summary': 'CRM Dashboard',
     'description': "CRM Dashboard",
-    'depends': ['base','crm','sales_team'],
+    'depends': ['base','crm','sales_team','sale'],
 
     'data': [
         'views/sales_team_view.xml',
