@@ -1,176 +1,213 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
     <t t-name="crm_dashboard.CrmDashboard">
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px;">
         <div class="">
-            <div>
-                <center>
-                    <h1 style="margin:20px;">
-                        CRM Dashboard
-                    </h1>
-                </center>
+                <div>
+                    <center>
+                        <h1 style="margin:20px;">
+                            CRM Dashboard
+                        </h1>
+                    </center>
+                </div>
             </div>
-        </div>
-        <div class="row main-section" style="margin-left: 120px;">
-            <!--            Lead Tile-->
-            <div id="leads" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                 style=" overflow: hidden; padding-top: 30px;">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0, 0, 0, 0.75);
+            <div class="row main-section" style="margin-left: 120px;">
+                <!--            Lead Tile-->
+                <div id="leads" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+                     style=" overflow: hidden; padding-top: 30px;">
+                    <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0, 0, 0, 0.75);
                 display: flex; justify-content: center;" role="button" t-on-click.stop.prevent="() => this.leadTile()">
-                    <div class="oh-card-body"
-                         style="padding: 5px 5px; float: left; width: 100%;
+                        <div class="oh-card-body"
+                             style="padding: 5px 5px; float: left; width: 100%;
                           height: auto; box-sizing: border-box; margin: 0;">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:#ff4d94; width:65px; text-align: center;">
-                                    <i class="fa fa-tasks text-mauve"
-                                       style="font-size:50px;"/>
-                                </div>
-                                <div class="stat_content" style="
+                            <div class="stat-widget-one">
+                                <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                                    <div style="background:#ff4d94; width:65px; text-align: center;">
+                                        <i class="fa fa-tasks text-mauve"
+                                           style="font-size:50px;"/>
+                                    </div>
+                                    <div class="stat_content" style="
                                   text-align: center; font-weight: bold;
                                   padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_lead"
-                                         style="font-size: 17px;">
-                                        <span id="templates">
-                                            <div id="my_lead"/>
-                                        </span>
-                                    </div>
-                                    <div class="stat-head"
-                                         style="font-size: 14px;">My Leads
+                                        <div class="stat_count_lead"
+                                             style="font-size: 17px;">
+                                            <span id="templates">
+                                                <div id="my_lead"/>
+                                            </span>
+                                        </div>
+                                        <div class="stat-head"
+                                             style="font-size: 14px;">My Leads
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--       Opportunity Tile-->
-            <div id="opportunity" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                 style=" overflow: hidden; padding-top: 30px;">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px  rgba(0, 0, 0, 0.75);
-                display: flex; justify-content: center;" role="button" t-on-click.stop.prevent="() => this.oppourtunityTile()">
-                    <div class="oh-card-body"
-                         style="padding: 5px 5px; float: left; width: 100%;
+                <!--       Opportunity Tile-->
+                <div id="opportunity" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+                     style=" overflow: hidden; padding-top: 30px;">
+                    <div class="oh-card" style="box-shadow:2px 4px 8px 2px  rgba(0, 0, 0, 0.75);
+                display: flex; justify-content: center;" role="button"
+                         t-on-click.stop.prevent="() => this.oppourtunityTile()">
+                        <div class="oh-card-body"
+                             style="padding: 5px 5px; float: left; width: 100%;
                           height: auto; box-sizing: border-box; margin: 0;">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:yellow; width:65px; text-align: center;">
-                                    <i class="fa fa-trophy  text-mauve"
-                                       style="font-size:50px;"/>
-                                </div>
-                                <div class="stat-content" style="
+                            <div class="stat-widget-one">
+                                <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                                    <div style="background:yellow; width:65px; text-align: center;">
+                                        <i class="fa fa-trophy  text-mauve"
+                                           style="font-size:50px;"/>
+                                    </div>
+                                    <div class="stat-content" style="
                                   text-align: center; font-weight: bold;
                                   padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_opp"
-                                         style="font-size: 17px;">
-                                        <span id="templates">
-                                            <div id="my_opportunity"/>
-                                        </span>
-                                    </div>
-                                    <div class="stat-head"
-                                         style="font-size: 14px;">My Opportunity
+                                        <div class="stat_count_opp"
+                                             style="font-size: 17px;">
+                                            <span id="templates">
+                                                <div id="my_opportunity"/>
+                                            </span>
+                                        </div>
+                                        <div class="stat-head"
+                                             style="font-size: 14px;">My Opportunity
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--            Expected Revenue -->
-            <div id="expected_revenue"
-                 class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                 style=" overflow: hidden; padding-top: 30px;">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0, 0, 0, 0.75);
+                <!--            Expected Revenue -->
+                <div id="expected_revenue"
+                     class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+                     style=" overflow: hidden; padding-top: 30px;">
+                    <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0, 0, 0, 0.75);
                 display: flex; justify-content: center;" role="button">
-                    <div class="oh-card-body"
-                         style="padding: 5px 5px; float: left; width: 100%;
+                        <div class="oh-card-body"
+                             style="padding: 5px 5px; float: left; width: 100%;
                           height: auto; box-sizing: border-box; margin: 0;">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:#bf80ff;; width:65px; text-align: center;">
-                                    <i class="fa fa-usd  text-mauve"
-                                       style="font-size:50px;"/>
-                                </div>
-                                <div class="stat-content" style="
+                            <div class="stat-widget-one">
+                                <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                                    <div style="background:#bf80ff;; width:65px; text-align: center;">
+                                        <i class="fa fa-usd  text-mauve"
+                                           style="font-size:50px;"/>
+                                    </div>
+                                    <div class="stat-content" style="
                                   text-align: center; font-weight: bold;
                                   padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_ex_rev"
-                                         style="font-size: 17px;">
-                                        <span id="templates">
-                                            <div id="revenue"/>
-                                        </span>
+                                        <div class="stat_count_ex_rev"
+                                             style="font-size: 17px;">
+                                            <span id="templates">
+                                                <div id="revenue"/>
+                                            </span>
+                                        </div>
+                                        <div class="stat-head"
+                                             style="font-size: 14px;">Expected
+                                            revenue
+                                        </div>
                                     </div>
-                                    <div class="stat-head"
-                                         style="font-size: 14px;">Expected
-                                        revenue
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--       Total Revenue -->
+                <div id="total_revenue"
+                     class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+                     style=" overflow: hidden; padding-top: 30px;">
+                    <div class="oh-card" style="box-shadow:2px 4px 8px 2px  rgba(0, 0, 0, 0.75);
+                display: flex; justify-content: center;" role="button">
+                        <div class="oh-card-body"
+                             style="padding: 5px 5px; float: left; width: 100%;
+                          height: auto; box-sizing: border-box; margin: 0;">
+                            <div class="stat-widget-one">
+                                <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                                    <div style="background:#bf80ff;; width:65px; text-align: center;">
+                                        <i class="fa fa-usd  text-mauve"
+                                           style="font-size:50px;"/>
+                                    </div>
+                                    <div class="stat-content" style="
+                                  text-align: center; font-weight: bold;
+                                  padding-top: 20px; padding-left: 80px;">
+                                        <div class="stat_count_opp"
+                                             style="font-size: 17px;">
+                                            <span id="templates">
+                                                <div id="revenue_total"/>
+                                            </span>
+                                        </div>
+                                        <div class="stat-head"
+                                             style="font-size: 14px;">Revenue
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- won or lost -->
+                <div id="won_or_lost"
+                     class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+                     style=" overflow: hidden; padding-top: 30px;">
+                    <div class="oh-card" style="box-shadow:2px 4px 8px 2px  rgba(0, 0, 0, 0.75);
+                display: flex; justify-content: center;" role="button">
+                        <div class="oh-card-body"
+                             style="padding: 5px 5px; float: left; width: 100%;
+                          height: auto; box-sizing: border-box; margin: 0;">
+                            <div class="stat-widget-one">
+                                <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                                    <div style="background:#bf80ff;; width:65px; text-align: center;">
+                                        <i class="fa-regular fa-colon"
+                                           style="font-size:50px;"/>
+                                    </div>
+                                    <div class="stat-content" style="
+                                  text-align: center; font-weight: bold;
+                                  padding-top: 20px; padding-left: 80px;">
+                                        <div class="stat_count_opp"
+                                             style="font-size: 17px;">
+                                            <span id="templates">
+                                                <div id="lead_ratio"/>
+                                            </span>
+                                        </div>
+                                        <div class="stat-head"
+                                             style="font-size: 14px;">Won or Lost ratio
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div><!--       Total Revenue -->
-            <div id="total_revenue"
-                 class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                 style=" overflow: hidden; padding-top: 30px;">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px  rgba(0, 0, 0, 0.75);
-                display: flex; justify-content: center;" role="button">
-                    <div class="oh-card-body"
-                         style="padding: 5px 5px; float: left; width: 100%;
-                          height: auto; box-sizing: border-box; margin: 0;">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:#bf80ff;; width:65px; text-align: center;">
-                                    <i class="fa fa-usd  text-mauve"
-                                       style="font-size:50px;"/>
-                                </div>
-                                <div class="stat-content" style="
-                                  text-align: center; font-weight: bold;
-                                  padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_opp"
-                                         style="font-size: 17px;">
-                                        <span id="templates">
-                                            <div id="revenue_total"/>
-                                        </span>
-                                    </div>
-                                    <div class="stat-head"
-                                         style="font-size: 14px;">Revenue
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- doughnut_chart -->
+                <!--            <div t-if="graph_data" class="o_survey_result px-4">-->
+                <div class="survey_graph mb-4"
+                     data-graph-type="doughnut"
+                     t-att-data-graph-data="graph_data">
+                    <canvas id="doughnut_chart" height="400px" width="400px"/>
+                    <!--                    <canvas id="doughnut_chart" class="w-100 h-auto mx-auto"></canvas>-->
                 </div>
-            </div><!-- won or lost -->
-            <div id="won_or_lost"
-                 class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                 style=" overflow: hidden; padding-top: 30px;">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px  rgba(0, 0, 0, 0.75);
-                display: flex; justify-content: center;" role="button">
-                    <div class="oh-card-body"
-                         style="padding: 5px 5px; float: left; width: 100%;
-                          height: auto; box-sizing: border-box; margin: 0;">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:#bf80ff;; width:65px; text-align: center;">
-                                    <i class="fa-regular fa-colon"
-                                       style="font-size:50px;"/>
-                                </div>
-                                <div class="stat-content" style="
-                                  text-align: center; font-weight: bold;
-                                  padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_opp"
-                                         style="font-size: 17px;">
-                                        <span id="templates">
-                                            <div id="won_or_lost"/>
-                                        </span>
-                                    </div>
-                                    <div class="stat-head"
-                                         style="font-size: 14px;"> Won or Lost ratio
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!--                <div t-if="survey.page_ids" class="survey_graph d-none d-md-block"-->
+                <!--                     data-graph-type="by_section"-->
+                <!--                     t-att-data-graph-data="graph_data">-->
+                <!--                    <canvas id="by_section_chart" class="w-100 h-auto mx-auto"></canvas>-->
+                <!--                </div>-->
+                <!--            </div>-->
+
+                <!-- pie_chart -->
+                <div class="survey_graph mb-4"
+                     data-graph-type="pie"
+                     t-att-data-graph-data="graph_data">
+                    <canvas id="pie_chart" height="400px" width="400px"/>
+                </div>
+
+                <!-- line_chart -->
+                <div class="survey_graph mb-4"
+                     data-graph-type="line"
+                     t-att-data-graph-data="graph_data">
+                    <canvas id="line_chart" height="400px" width="400px"/>
+                </div>
+                <!-- bar_chart -->
+                <div class="survey_graph mb-4"
+                     data-graph-type="line"
+                     t-att-data-graph-data="graph_data">
+                    <canvas id="bar_chart" height="400px" width="400px"/>
                 </div>
             </div>
         </div>
