@@ -176,38 +176,120 @@
                     </div>
                 </div>
                 <!-- doughnut_chart -->
-                <!--            <div t-if="graph_data" class="o_survey_result px-4">-->
-                <div class="survey_graph mb-4"
-                     data-graph-type="doughnut"
-                     t-att-data-graph-data="graph_data">
-                    <canvas id="doughnut_chart" height="400px" width="400px"/>
-                    <!--                    <canvas id="doughnut_chart" class="w-100 h-auto mx-auto"></canvas>-->
+                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-10 col-lg-6" style="grid-area: 1 / 8 / 13 / 13; --grid-item-padding-y: 80px; --grid-item-padding-x: 40px; z-index: 4;">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2" data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}' data-snippet="s_chart" data-name="Chart">
+                        <canvas id="doughnut_chart" style="box-sizing: border-box;" width="456" height="228"/>
+                    </div>
                 </div>
-                <!--                <div t-if="survey.page_ids" class="survey_graph d-none d-md-block"-->
-                <!--                     data-graph-type="by_section"-->
-                <!--                     t-att-data-graph-data="graph_data">-->
-                <!--                    <canvas id="by_section_chart" class="w-100 h-auto mx-auto"></canvas>-->
-                <!--                </div>-->
-                <!--            </div>-->
+<!--                </div><div class="survey_graph mb-4"-->
+<!--                     data-graph-type="doughnut"-->
+<!--                     t-att-data-graph-data="graph_data">-->
+<!--                    <canvas id="doughnut_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
+<!--                </div>-->
 
                 <!-- pie_chart -->
-                <div class="survey_graph mb-4"
-                     data-graph-type="pie"
-                     t-att-data-graph-data="graph_data">
-                    <canvas id="pie_chart" height="400px" width="400px"/>
+                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-10 col-lg-6" style="grid-area: 1 / 8 / 13 / 13; --grid-item-padding-y: 80px; --grid-item-padding-x: 40px; z-index: 4;">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2" data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}' data-snippet="s_chart" data-name="Chart">
+                        <canvas id="pie_chart" style="box-sizing: border-box;" width="456" height="228"/>
+                    </div>
                 </div>
+<!--                </div><div class="survey_graph mb-4"-->
+<!--                     data-graph-type="pie"-->
+<!--                     t-att-data-graph-data="graph_data">-->
+<!--                    <canvas id="pie_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
+<!--                </div>-->
 
                 <!-- line_chart -->
-                <div class="survey_graph mb-4"
-                     data-graph-type="line"
-                     t-att-data-graph-data="graph_data">
-                    <canvas id="line_chart" height="400px" width="400px"/>
+                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-12 col-lg-5 rounded">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2">
+                        <canvas id="line_chart" style="box-sizing: border-box;" width="456" height="228"/>
+                    </div>
                 </div>
+<!--                </div><div class="survey_graph mb-4"-->
+<!--                     data-graph-type="line"-->
+<!--                     t-att-data-graph-data="graph_data">-->
+<!--                    <canvas id="line_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
+<!--                </div>-->
                 <!-- bar_chart -->
-                <div class="survey_graph mb-4"
-                     data-graph-type="line"
-                     t-att-data-graph-data="graph_data">
-                    <canvas id="bar_chart" height="400px" width="400px"/>
+                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-12 col-lg-5 rounded" style="grid-area: 1 / 8 / 13 / 13; --grid-item-padding-y: 80px; --grid-item-padding-x: 40px; z-index: 4;">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2" data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}' data-snippet="s_chart" data-name="Chart">
+                        <canvas id="bar_chart" style="box-sizing: border-box;" width="456" height="228"/>
+                    </div>
+                </div>
+<!--                </div><div class="survey_graph mb-4"-->
+<!--                     data-graph-type="line"-->
+<!--                     t-att-data-graph-data="graph_data">-->
+<!--                    <canvas id="bar_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
+<!--                </div>-->
+                <!-- table_chart -->
+                <div style="box-sizing: border-box; display: block; height: 299px; width: 1818px;">
+                    <table class="table report_border table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th style="padding: 0px;" class="text-center">
+                                    <h5>
+                                        <b>Month</b>
+                                    </h5>
+                                </th>
+                                <th style="padding: 0px;" class="text-center">
+                                    <h5>
+                                        <b>Leads</b>
+                                    </h5>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-left">
+                            <tr>
+                                <td>
+                                    January
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    February
+                                </td>
+                            </tr><tr>
+                                <td>
+                                   March
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    April
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    May
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    June
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    July
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    August
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    september
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    October
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    November
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    December
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

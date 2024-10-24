@@ -32,7 +32,6 @@ class CrmLead(models.Model):
             lead_ratio.append(len(won_leads))
 
 
-        # print("won_leads",leads_activity)
         return {
             'total_leads': len(my_leads),
             'total_opportunity': len(my_opportunity),
@@ -61,32 +60,99 @@ class CrmLead(models.Model):
     @api.model
     def get_doughnut_data(self):
         """Return Medium data for doughnut chart"""
-        medium = self.env['utm.medium'].search([])
-        available_medium = []
-        for i in medium:
-            available_medium.append(i.name)
-            print("iii", available_medium)
+        company_id = self.env.company
+        leads = self.search([('company_id', '=', company_id.id),
+                             ('user_id', '=', self.env.user.id)])
+        leads_medium = []
+        medium_name = []
+        for i in leads.medium_id:
+            new_lead = leads.filtered(lambda r: r.medium_id == i)
+            leads_medium.append(len(new_lead))
+
+        for i in leads.medium_id:
+            medium_name.append(i.name)
+
+        print("new_lead", leads_medium)
+        print("new_lead", medium_name)
+
+        return {
+            'leads_medium': leads_medium,
+            'medium_name': medium_name,
+        }
+
 
     @api.model
     def get_line_data(self):
         """ Return campaign data for line chart"""
-        campaign = self.env['utm.campaign'].search([])
-        print("campaign", campaign)
-        available_campaign = []
-        for i in campaign:
-            available_campaign.append(i.name)
-            print("iii", available_campaign)
+        company_id = self.env.company
+        leads = self.search([('company_id', '=', company_id.id),
+                             ('user_id', '=', self.env.user.id)])
+        leads_campaign = []
+        campaign_name = []
+        for i in leads.campaign_id:
+            camp_lead = leads.filtered(lambda r: r.campaign_id == i)
+            leads_campaign.append(len(camp_lead))
+
+        for i in leads.campaign_id:
+            campaign_name.append(i.name)
+
+        print("new_lead", leads_campaign)
+        print("new_lead", campaign_name)
+
+        return {
+            'leads_campaign': leads_campaign,
+            'campaign_name': campaign_name,
+        }
 
     @api.model
     def get_pie_data(self):
-        activity = self.env["mail.activity.type"].search([])
-        activity_list = []
-        for i in activity:
-            activity_list.append(i.name)
-            # print("iii", available_campaign)
-        print("activity", activity_list)
+        company_id = self.env.company
+        leads = self.search([('company_id', '=', company_id.id),
+                             ('user_id', '=', self.env.user.id)])
+        leads_activity = []
+        activity_name = []
+        for i in leads.activity_type_id:
+            activity_lead = leads.filtered(lambda r: r.activity_type_id == i)
+            leads_activity.append(len(activity_lead))
 
+        for i in leads.activity_type_id:
+            activity_name.append(i.name)
 
+        print("new_lead", leads_activity)
+        print("new_lead", activity_name)
 
+        return {
+            'leads_activity': leads_activity,
+            'activity_name': activity_name,
+        }
+    @api.model
+    def get_table_data(self):
+        company_id = self.env.company
+        leads = self.search([('company_id', '=', company_id.id),
+                             ('user_id', '=', self.env.user.id)])
+        month = [1, "January", 2, 'February',
+                 3, 'March',
+                 4, 'April',
+                 5, 'May',
+                 6, 'June',
+                 7, 'July',
+                 8, 'August',
+                 9, 'September',
+                 10, 'October',
+                 11, 'November',
+                 12, 'December']
+        leads_medium = []
+        month_name = []
+        for i in leads:
+            new_month_lead = leads.filtered(lambda r: r.create_date.month == i.create_date.month)
+            leads_medium.append((new_month_lead))
 
+        for i in leads_medium:
+            for j in i:
+                month_name.append(j.create_date.month)
+
+        return {
+            'month': dict.fromkeys(month),
+            'month_name': dict.fromkeys(month_name),
+        }
 

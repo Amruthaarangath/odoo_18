@@ -22,13 +22,11 @@ class CrmDashboard extends Component {
             this.renderPieChart();
             this.renderLineChart();
             this.renderBarChart();
-//            this.renderGraphChart();
-//            return () => {
-//                if (this.chart) {
-//                    this.chart.destroy();
-//                }
-//            }
+
             });
+//         this.state = useState({
+//            month[],
+//        });
    }
 
    _fetch_data(){
@@ -43,6 +41,12 @@ class CrmDashboard extends Component {
            });
 //        }
        };
+//    async dashboardUsers(){
+//           await normalUser = user.hasGroup("sales_team.group_sale_salesman"),
+//           await CrmUser = user.hasGroup("sales_team.group_sale_salesman_all_leads"),
+//           await CrmManager = user.hasGroup("sales_team.group_sale_manager"),
+//    }
+
        async leadTile() {
         this.action.doAction({
             type: 'ir.actions.act_window',
@@ -64,113 +68,114 @@ class CrmDashboard extends Component {
             });
 
         }
-        renderDoughnutChart(){
-            const Banner = 1
-            const Direct = 2
-            console.log("doughnut_chart")
-            var chart = new Chart("doughnut_chart", {
-            type: "doughnut",
+        async renderDoughnutChart(){
+            await this.orm.call("crm.lead", "get_doughnut_data",  [], {}).then(function(result){
+                var chart = new Chart(document.getElementById('doughnut_chart'), {
+                type: "doughnut",
+                data: {
+                    labels: result.medium_name,
+                    datasets: [{
+//                        data: [result.leads_medium],
+                        backgroundColor: ["#1f77b4", "#dddddd", "blue", "green", "red"],
+                        data: result.leads_medium
+                    }]
+                },
+                options: {
+                    circumference: 500,
+                    rotation: 270,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: "70%",
+                    layout: {
+                        padding: {
+                             left: 30
+                        },
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: "Doughnut Chart",
+                            padding: 4,
+                        },
+                    aspectRatio: 2,
+                },
+                }
+                });
+                })
+    //        }
+        }
+    async renderPieChart(){
+         await this.orm.call("crm.lead", "get_pie_data",  [], {}).then(function(result){
+            var chart = new Chart(document.getElementById('pie_chart'), {
+            type: "pie",
             data: {
+                labels: result.activity_name,
                 datasets: [{
-                    data: [Banner, Direct],
-                    backgroundColor: ["#1f77b4", "#dddddd"],
-//                    data: [0, 10, 20, 30, 40]
+                    backgroundColor: ["orange", "green"],
+                    data: result.leads_activity
                 }]
             },
-            options: {
-                circumference: 500,
-                rotation: 270,
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: "70%",
-                layout: {
-                    padding: {
-                         left: 1000
+            options: {circumference: 500,
+                    rotation: 270,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                         padding: {
+                             right: 100,
+                        },
                     },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: "Pie Chart",
+                            padding: 4,
+                        },
+                    aspectRatio: 2,
                 },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: this.title,
-                        padding: 4,
-                    },
-                aspectRatio: 2,
-            },
-            }
-            });
-//        }
-    }
-    renderPieChart(){
-        var chart = new Chart("pie_chart", {
-        type: "pie",
-        data: {
-            datasets: [{
-                backgroundColor: ["orange", "green"],
-                data: [0, 10, 20, 30, 40]
-            }]
-        },
-        options: {circumference: 500,
-                rotation: 270,
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: {
-                     padding: {
-                         right: 1000,
-                    },
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: this.title,
-                        padding: 4,
-                    },
-                aspectRatio: 2,
-            },
-            }
-    });
-}
-renderLineChart(){
-    var chart = new Chart("line_chart", {
-        type: "line",
-        data: {
-            labels: [10, 20, 30, 40, 50],
-            datasets: [{
-                data: [10, 20, 30, 40, 50],
-                pointBackgroundColor: "red",
-            }]
-        },
-        options: {circumference: 1000,
-                rotation: 300,
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: {
-                    padding: 30,
-                },
-//            plugins: {
-//                legend: { display: false },
-//                tooltip: {
-//                    intersect: false,
-//                    position: "nearest",
-//                    caretSize: 0,
-//                },
-//        },
-        }
-    });
-    }
-
-    renderBarChart(){
-        var newww = this.orm.call("crm.lead", "get_bar_data",  [], {}).then(function(result){
-        leads,
-        opportunity
+                }
+        });
         })
-        console.log("bnm",newww.leads_len)
-        var chart = new Chart("bar_chart", {
+    }
+    async renderLineChart(){
+        await this.orm.call("crm.lead", "get_line_data",  [], {}).then(function(result){
+        var chart = new Chart(document.getElementById('line_chart'), {
+            type: "line",
+            data: {
+                labels: result.campaign_name,
+                datasets: [{
+                    data: result.leads_campaign,
+                    pointBackgroundColor: "red",
+                }]
+            },
+            options: {circumference: 1000,
+                    rotation: 300,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: 30,
+                    },
+                plugins: {
+                    legend: { display: false },
+                    text: "Line Chart",
+                    tooltip: {
+                        intersect: false,
+                        caretSize: 0,
+                    },
+            },
+            }
+        });
+        })
+        }
+
+    async renderBarChart(){
+        await this.orm.call("crm.lead", "get_bar_data",  [], {}).then(function(result){
+        var chart = new Chart(document.getElementById('bar_chart'), {
         type: "bar",
         data: {
             labels: ["leads","opportunities"],
             datasets: [{
+                data: [result.leads,result.opportunity],
                 backgroundColor: ["green","orange"],
-                data: [newww.leads_len,newww.opportunity_len]
             }]
         },
         options: {circumference: 1000,
@@ -191,6 +196,7 @@ renderLineChart(){
         },
         }
     });
+    })
     }
 
 }
