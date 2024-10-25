@@ -1,7 +1,7 @@
 /**@odoo-module **/
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { Component, useEffect} from  "@odoo/owl";
+import { Component, onWillStart, useEffect, useState} from  "@odoo/owl";
 const actionRegistry = registry.category("actions");
 import { _t } from "@web/core/l10n/translation";
 import { session } from "@web/session";
@@ -15,7 +15,11 @@ class CrmDashboard extends Component {
 //         this.user = useService('user')
          this._fetch_data()
          this.action = useService("action");
-         this.chart = null;
+         this.doughnut = null;
+         this.pie = null;
+         this.line = null;
+         this.bar = null;
+
 
          useEffect(() => {
             this.renderDoughnutChart();
@@ -24,20 +28,30 @@ class CrmDashboard extends Component {
             this.renderBarChart();
 
             });
-//         this.state = useState({
-//            month[],
-//        });
+         this.state = useState({
+            month : [],
+            monthLead : []
+        });
+
+        onWillStart(async ()=>{
+            await this.orm.call("crm.lead", "get_table_data",  [], {}).then((result) => {
+                var table = document.getElementById('table_chart')
+                this.state.month = result.final_month_name
+                this.state.monthLead = result.leads_month_length
+                console.log("kkkk",result.final_month_name)
+                console.log("kkkoiugfdsdfgvk",result.leads_month_length)
+            })
+    });
    }
 
    _fetch_data(){
-//   console.log(user, "0000000")
    var self = this;
    this.orm.call("crm.lead", "get_tiles_data", [], {}).then(function(result){
-           document.getElementById('my_lead').append( result.total_leads );
+          ` document.getElementById('my_lead').append( result.total_leads );
            document.getElementById("my_opportunity").append(result.total_opportunity);
            document.getElementById("revenue").append(result.currency + result.expected_revenue);
            document.getElementById("revenue_total").append(result.currency + result.revenue_total);
-           document.getElementById("lead_ratio").append(result.lead_ratio);
+           document.getElementById("lead_ratio").append(result.lead_ratio);`
            });
 //        }
        };
@@ -69,44 +83,54 @@ class CrmDashboard extends Component {
 
         }
         async renderDoughnutChart(){
-            await this.orm.call("crm.lead", "get_doughnut_data",  [], {}).then(function(result){
-                var chart = new Chart(document.getElementById('doughnut_chart'), {
-                type: "doughnut",
-                data: {
-                    labels: result.medium_name,
-                    datasets: [{
-//                        data: [result.leads_medium],
-                        backgroundColor: ["#1f77b4", "#dddddd", "blue", "green", "red"],
-                        data: result.leads_medium
-                    }]
-                },
-                options: {
-                    circumference: 500,
-                    rotation: 270,
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: "70%",
-                    layout: {
-                        padding: {
-                             left: 30
-                        },
+            await this.orm.call("crm.lead", "get_doughnut_data",  [], {}).then((result)=> {
+//                var doughnut = document.getElementById('doughnut_chart')
+//                if (this.doughnut != null){
+//                    this.doughnut.destroy()
+//                }
+
+                    var doughnut = new Chart(document.getElementById('doughnut_chart'), {
+                    type: "doughnut",
+                    data: {
+                        labels: result.medium_name,
+                        datasets: [{
+    //                        data: [result.leads_medium],
+                            backgroundColor: ["#1f77b4", "#dddddd", "blue", "green", "red"],
+                            data: result.leads_medium
+                        }]
                     },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: "Doughnut Chart",
-                            padding: 4,
+                    options: {
+                        circumference: 500,
+                        rotation: 270,
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: "70%",
+                        layout: {
+                            padding: {
+                                 left: 30
+                            },
                         },
-                    aspectRatio: 2,
-                },
-                }
-                });
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: "Doughnut Chart",
+                                padding: 4,
+                            },
+                        aspectRatio: 2,
+                    },
+                    }
+                    });
+//                  }
                 })
     //        }
         }
     async renderPieChart(){
-         await this.orm.call("crm.lead", "get_pie_data",  [], {}).then(function(result){
-            var chart = new Chart(document.getElementById('pie_chart'), {
+         await this.orm.call("crm.lead", "get_pie_data",  [], {}).then((result)=> {
+//            if (this.pie != null){
+//                this.pie.destroy();
+//                }
+//            else{
+            var pie = new Chart(document.getElementById('pie_chart'), {
             type: "pie",
             data: {
                 labels: result.activity_name,
@@ -134,11 +158,16 @@ class CrmDashboard extends Component {
                 },
                 }
         });
+//        }
         })
     }
     async renderLineChart(){
-        await this.orm.call("crm.lead", "get_line_data",  [], {}).then(function(result){
-        var chart = new Chart(document.getElementById('line_chart'), {
+        await this.orm.call("crm.lead", "get_line_data",  [], {}).then((result)=> {
+//        if (this.line != null){
+//            this.line.destroy();
+//            }
+
+        var line = new Chart(document.getElementById('line_chart'), {
             type: "line",
             data: {
                 labels: result.campaign_name,
@@ -164,12 +193,19 @@ class CrmDashboard extends Component {
             },
             }
         });
+//        }
         })
         }
 
     async renderBarChart(){
+        var self = this;
         await this.orm.call("crm.lead", "get_bar_data",  [], {}).then(function(result){
-        var chart = new Chart(document.getElementById('bar_chart'), {
+        console.log('this',self)
+//        if (self.bar != null ){
+//            self.bar.destroy();
+//            }
+//        else{
+        var bar = new Chart(document.getElementById('bar_chart'), {
         type: "bar",
         data: {
             labels: ["leads","opportunities"],
@@ -196,6 +232,7 @@ class CrmDashboard extends Component {
         },
         }
     });
+//    }
     })
     }
 

@@ -32,6 +32,86 @@ class CrmLead(models.Model):
             lead_ratio.append(len(won_leads))
 
 
+    # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    #     print("leads",leads)
+    #     leads_month = []
+    #     leads_month_length = []
+    #     len_leads =[]
+    #     name = {1:'january',2:'february',3:'March',4:'April',5:'May',6:'June',7:'July',8:'August',9:'september',10:'October',11:'November',12:'December'}
+    #
+    #     for i in leads:
+    #         new_month_lead = leads.filtered(lambda r: r.create_date.month == i.create_date.month)
+    #         leads_month.append((new_month_lead))
+    #         leads_month_length.append(len(new_month_lead))
+    #         monthly_lead = set(leads_month)
+    #         # len_leads.append(len(leads_month))
+    #
+    #     print("leads_month", monthly_lead)
+    #
+    #     month_name = []
+    #     for i in monthly_lead:
+    #         for j in i:
+    #             month_name.append(j.create_date.month)
+    #             months = set(month_name)
+    #
+    #     print("months", months)
+    #
+    #     final_month_name = []
+    #     for m in name:
+    #         if m in month_name:
+    #             final_month_name.append(name[m])
+    #
+    #
+    #
+    #     print("final_month_name", final_month_name)
+    #     print("len", set(leads_month_length))
+    #
+    #     return {
+    #         'leads_month_length' : set(leads_month_length),
+    #         'final_month_name' : final_month_name
+    #     }
+    #
+
+
+    #     leads_medium = []
+    #     month_name = []
+    #     for i in leads:
+    #         # number_of_month = i.create_date.month
+    #         new_month_lead = leads.filtered(lambda r: r.create_date.month == i.create_date.month)
+    #         leads_medium.append((new_month_lead))
+    #
+    #     for i in leads_medium:
+    #         for j in i:
+    #             month_name.append(j.create_date.month)
+    #
+    # # count={}
+    # # for i in leads:
+    # #     number_of_month = i.create_date.month
+    # #     count[number_of_month]= number_of_month.get(number_of_month, 0)+1
+    # #
+    #     # name = {1:'january',2:'february',3:'March',4:'April',5:'May',6:'June',7:'July',8:'August',9:'september',10:'October',11:'November',12:'December'}
+    #     name = {12:'December',11:'November',10:'October',9:'September',8:'August',7:'July',6:'June',5:'May',4:'April',3:'March',2:'February',1:'January'}
+    #
+    #     # real_months = [name[m]& m in month_name.keys()]
+    #     final = []
+    #     final_month_name = []
+    #     for m in name:
+    #         for m in set(month_name):
+    #             final.append(name[m])
+    #             final_month_name.append(month_name[m])
+    #
+    #
+    #
+    #     # lead_len = list(counts.value())
+    # #
+    #     print("mmm",final)
+    #     print("month_name",set(month_name))
+    #     print("month_name",set(leads_medium))
+    #     print("month_name",set(final_month_name))
+    # #     for m in name:
+    # #         print("mmmmnjnnm",name[m])
+
+
         return {
             'total_leads': len(my_leads),
             'total_opportunity': len(my_opportunity),
@@ -49,8 +129,6 @@ class CrmLead(models.Model):
         opportunity = lost_leads.filtered(lambda r: r.type == 'opportunity')
         leads_len = len(leads)
         opportunity_len = len(opportunity)
-        print("leads",leads_len)
-        print("opportunity",opportunity_len)
 
         return {
             'leads': len(leads),
@@ -69,11 +147,11 @@ class CrmLead(models.Model):
             new_lead = leads.filtered(lambda r: r.medium_id == i)
             leads_medium.append(len(new_lead))
 
+        print("leads_medium",leads_medium)
+
         for i in leads.medium_id:
             medium_name.append(i.name)
 
-        print("new_lead", leads_medium)
-        print("new_lead", medium_name)
 
         return {
             'leads_medium': leads_medium,
@@ -96,8 +174,6 @@ class CrmLead(models.Model):
         for i in leads.campaign_id:
             campaign_name.append(i.name)
 
-        print("new_lead", leads_campaign)
-        print("new_lead", campaign_name)
 
         return {
             'leads_campaign': leads_campaign,
@@ -118,8 +194,6 @@ class CrmLead(models.Model):
         for i in leads.activity_type_id:
             activity_name.append(i.name)
 
-        print("new_lead", leads_activity)
-        print("new_lead", activity_name)
 
         return {
             'leads_activity': leads_activity,
@@ -127,32 +201,46 @@ class CrmLead(models.Model):
         }
     @api.model
     def get_table_data(self):
+
         company_id = self.env.company
         leads = self.search([('company_id', '=', company_id.id),
                              ('user_id', '=', self.env.user.id)])
-        month = [1, "January", 2, 'February',
-                 3, 'March',
-                 4, 'April',
-                 5, 'May',
-                 6, 'June',
-                 7, 'July',
-                 8, 'August',
-                 9, 'September',
-                 10, 'October',
-                 11, 'November',
-                 12, 'December']
-        leads_medium = []
-        month_name = []
+        print("leads", leads)
+        leads_month = []
+        leads_month_length = []
+        len_leads = []
+        name = {1: 'january', 2: 'february', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August',
+                9: 'september', 10: 'October', 11: 'November', 12: 'December'}
+
         for i in leads:
             new_month_lead = leads.filtered(lambda r: r.create_date.month == i.create_date.month)
-            leads_medium.append((new_month_lead))
+            leads_month.append((new_month_lead))
+            leads_month_length.append(len(new_month_lead))
+            monthly_lead = set(leads_month)
+            # len_leads.append(len(leads_month))
 
-        for i in leads_medium:
+        print("leads_month", monthly_lead)
+
+        month_name = []
+        for i in monthly_lead:
             for j in i:
                 month_name.append(j.create_date.month)
+                months = set(month_name)
+
+        print("months", months)
+
+        final_month_name = []
+        for m in name:
+            if m in month_name:
+                final_month_name.append(name[m])
+
+        print("final_month_name", final_month_name[::-1])
+        print("len", set(leads_month_length))
 
         return {
-            'month': dict.fromkeys(month),
-            'month_name': dict.fromkeys(month_name),
+            'leads_month_length': list(set(leads_month_length)),
+            'final_month_name': final_month_name[::-1]
         }
+
+
 

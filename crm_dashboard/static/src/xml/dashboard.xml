@@ -2,13 +2,25 @@
 <templates>
     <t t-name="crm_dashboard.CrmDashboard">
         <div style="max-height: 100vh; overflow-y:auto; padding: 10px;">
-        <div class="">
+            <div class="">
                 <div>
                     <center>
                         <h1 style="margin:20px;">
                             CRM Dashboard
                         </h1>
                     </center>
+                    <div>Filter:
+                        <div class="o_input d-flex flex-wrap gap-1 o_multi_record_selector">
+                            <select class="col-md-5" id="partner_id" name="Filter">
+                                <!--                            <t t-log="state.partner_id"/>-->
+                                <option value="">select...</option>
+                                <option>This year</option>
+                                <option>This quater</option>
+                                <option>This month</option>
+                                <option>This week</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row main-section" style="margin-left: 120px;">
@@ -176,121 +188,79 @@
                     </div>
                 </div>
                 <!-- doughnut_chart -->
-                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-10 col-lg-6" style="grid-area: 1 / 8 / 13 / 13; --grid-item-padding-y: 80px; --grid-item-padding-x: 40px; z-index: 4;">
-                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2" data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}' data-snippet="s_chart" data-name="Chart">
+                <div class="col-md-6">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
+                         data-stacked="false" data-border-width="2"
+                         data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
+                         data-snippet="s_chart" data-name="Chart">
                         <canvas id="doughnut_chart" style="box-sizing: border-box;" width="456" height="228"/>
                     </div>
                 </div>
-<!--                </div><div class="survey_graph mb-4"-->
-<!--                     data-graph-type="doughnut"-->
-<!--                     t-att-data-graph-data="graph_data">-->
-<!--                    <canvas id="doughnut_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
-<!--                </div>-->
-
                 <!-- pie_chart -->
-                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-10 col-lg-6" style="grid-area: 1 / 8 / 13 / 13; --grid-item-padding-y: 80px; --grid-item-padding-x: 40px; z-index: 4;">
-                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2" data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}' data-snippet="s_chart" data-name="Chart">
+                <div class="col-md-6">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
+                         data-stacked="false" data-border-width="2"
+                         data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
+                         data-snippet="s_chart" data-name="Chart">
                         <canvas id="pie_chart" style="box-sizing: border-box;" width="456" height="228"/>
                     </div>
                 </div>
-<!--                </div><div class="survey_graph mb-4"-->
-<!--                     data-graph-type="pie"-->
-<!--                     t-att-data-graph-data="graph_data">-->
-<!--                    <canvas id="pie_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
-<!--                </div>-->
-
                 <!-- line_chart -->
-                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-12 col-lg-5 rounded">
-                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2">
+                <div class="col-md-6">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
+                         data-stacked="false" data-border-width="2">
                         <canvas id="line_chart" style="box-sizing: border-box;" width="456" height="228"/>
                     </div>
                 </div>
-<!--                </div><div class="survey_graph mb-4"-->
-<!--                     data-graph-type="line"-->
-<!--                     t-att-data-graph-data="graph_data">-->
-<!--                    <canvas id="line_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
-<!--                </div>-->
                 <!-- bar_chart -->
-                <div class="o_grid_item o_cc o_cc2 g-col-lg-5 g-height-12 col-lg-5 rounded" style="grid-area: 1 / 8 / 13 / 13; --grid-item-padding-y: 80px; --grid-item-padding-x: 40px; z-index: 4;">
-                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false" data-stacked="false" data-border-width="2" data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}' data-snippet="s_chart" data-name="Chart">
+                <div class="col-md-6">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
+                         data-stacked="false" data-border-width="2"
+                         data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
+                         data-snippet="s_chart" data-name="Chart">
                         <canvas id="bar_chart" style="box-sizing: border-box;" width="456" height="228"/>
                     </div>
                 </div>
-<!--                </div><div class="survey_graph mb-4"-->
-<!--                     data-graph-type="line"-->
-<!--                     t-att-data-graph-data="graph_data">-->
-<!--                    <canvas id="bar_chart" style="box-sizing: border-box; display: block; height: 299px; width: 1818px;" height="400px" width="400px"/>-->
-<!--                </div>-->
                 <!-- table_chart -->
-                <div style="box-sizing: border-box; display: block; height: 299px; width: 1818px;">
-                    <table class="table report_border table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th style="padding: 0px;" class="text-center">
-                                    <h5>
-                                        <b>Month</b>
-                                    </h5>
-                                </th>
-                                <th style="padding: 0px;" class="text-center">
-                                    <h5>
-                                        <b>Leads</b>
-                                    </h5>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-left">
-                            <tr>
-                                <td>
-                                    January
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    February
-                                </td>
-                            </tr><tr>
-                                <td>
-                                   March
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    April
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    May
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    June
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    July
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    August
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    september
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    October
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    November
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    December
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div style="box-sizing: border-box; display: block; height: 1000px; width: 10.00px;">
+                    <div class="col-md-6">
+                        <div class="s_chart" data-type="doughnut" data-legend-position="none"
+                             data-tooltip-display="false"
+                             data-stacked="false" data-border-width="2"
+                             data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
+                             data-snippet="s_chart" data-name="Chart">
+                            <canvas id="table_chart" style="box-sizing: border-box;" width="456" height="228"/>
+                            <!--                        <table class="table report_border table-hover table-striped">-->
+                            <table class="table report_border table-hover table-striped">
+                                <tr>
+                                    <th>Months</th>
+                                    <th>Leads</th>
+                                </tr>
+                                <div>
+                                    <tr>
+                                        <td>
+                                            <tr t-foreach="state.month" t-as="item" t-key="item">
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="item"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </td>
+                                        <td>
+                                            <tr t-foreach="state.monthLead" t-as="item" t-key="item">
+                                                <span>
+                                                    <t t-esc="item"/>
+                                                </span>
+                                            </tr>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+                <!--                </div>-->
             </div>
         </div>
     </t>
