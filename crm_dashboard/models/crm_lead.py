@@ -2,6 +2,8 @@
 
 from odoo import fields, models, api
 import math
+from datetime import date
+
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
@@ -14,6 +16,7 @@ class CrmLead(models.Model):
                              ('user_id', '=', self.env.user.id)])
         lost_leads= self.search([('user_id', '=', self.env.user.id),
                              ('active', '=',False)])
+        print("aaa",leads)
         my_leads = leads.filtered(lambda r: r.type == 'lead')
         my_leads_mmm = leads.browse(25)
         my_opportunity = leads.filtered(lambda r: r.type == 'opportunity')
@@ -23,93 +26,14 @@ class CrmLead(models.Model):
         revenue_total = sum(invoice_count.mapped('amount_total'))
         won_leads = leads.filtered(lambda r: r.stage_id.id == 4)
         ratio = math.gcd(len(lost_leads),len(won_leads))
-        lead_ratio = []
+        lead_lost_ratio = []
+        lead_won_ratio = []
         if (len(lost_leads) > 0 ) and (len(won_leads) > 0):
-            lead_ratio.append(len(lost_leads)/ratio)
-            lead_ratio.append(len(won_leads)/ratio)
+            lead_lost_ratio.append(len(lost_leads)/ratio)
+            lead_won_ratio.append(len(won_leads)/ratio)
         else:
-            lead_ratio.append(len(lost_leads))
-            lead_ratio.append(len(won_leads))
-
-
-    # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    #     print("leads",leads)
-    #     leads_month = []
-    #     leads_month_length = []
-    #     len_leads =[]
-    #     name = {1:'january',2:'february',3:'March',4:'April',5:'May',6:'June',7:'July',8:'August',9:'september',10:'October',11:'November',12:'December'}
-    #
-    #     for i in leads:
-    #         new_month_lead = leads.filtered(lambda r: r.create_date.month == i.create_date.month)
-    #         leads_month.append((new_month_lead))
-    #         leads_month_length.append(len(new_month_lead))
-    #         monthly_lead = set(leads_month)
-    #         # len_leads.append(len(leads_month))
-    #
-    #     print("leads_month", monthly_lead)
-    #
-    #     month_name = []
-    #     for i in monthly_lead:
-    #         for j in i:
-    #             month_name.append(j.create_date.month)
-    #             months = set(month_name)
-    #
-    #     print("months", months)
-    #
-    #     final_month_name = []
-    #     for m in name:
-    #         if m in month_name:
-    #             final_month_name.append(name[m])
-    #
-    #
-    #
-    #     print("final_month_name", final_month_name)
-    #     print("len", set(leads_month_length))
-    #
-    #     return {
-    #         'leads_month_length' : set(leads_month_length),
-    #         'final_month_name' : final_month_name
-    #     }
-    #
-
-
-    #     leads_medium = []
-    #     month_name = []
-    #     for i in leads:
-    #         # number_of_month = i.create_date.month
-    #         new_month_lead = leads.filtered(lambda r: r.create_date.month == i.create_date.month)
-    #         leads_medium.append((new_month_lead))
-    #
-    #     for i in leads_medium:
-    #         for j in i:
-    #             month_name.append(j.create_date.month)
-    #
-    # # count={}
-    # # for i in leads:
-    # #     number_of_month = i.create_date.month
-    # #     count[number_of_month]= number_of_month.get(number_of_month, 0)+1
-    # #
-    #     # name = {1:'january',2:'february',3:'March',4:'April',5:'May',6:'June',7:'July',8:'August',9:'september',10:'October',11:'November',12:'December'}
-    #     name = {12:'December',11:'November',10:'October',9:'September',8:'August',7:'July',6:'June',5:'May',4:'April',3:'March',2:'February',1:'January'}
-    #
-    #     # real_months = [name[m]& m in month_name.keys()]
-    #     final = []
-    #     final_month_name = []
-    #     for m in name:
-    #         for m in set(month_name):
-    #             final.append(name[m])
-    #             final_month_name.append(month_name[m])
-    #
-    #
-    #
-    #     # lead_len = list(counts.value())
-    # #
-    #     print("mmm",final)
-    #     print("month_name",set(month_name))
-    #     print("month_name",set(leads_medium))
-    #     print("month_name",set(final_month_name))
-    # #     for m in name:
-    # #         print("mmmmnjnnm",name[m])
+            lead_lost_ratio.append(len(lost_leads))
+            lead_won_ratio.append(len(won_leads))
 
 
         return {
@@ -118,7 +42,8 @@ class CrmLead(models.Model):
             'expected_revenue': expected_revenue,
             'currency': currency,
             'revenue_total': revenue_total,
-            'lead_ratio' : lead_ratio,
+            'lead_won_ratio' : lead_won_ratio,
+            'lead_lost_ratio': lead_lost_ratio,
         }
 
     @api.model
@@ -241,6 +166,24 @@ class CrmLead(models.Model):
             'leads_month_length': list(set(leads_month_length)),
             'final_month_name': final_month_name[::-1]
         }
+
+    @api.model
+    def get_filter_data(self, filter_value):
+        today = date.today()
+        print("today",today)
+        print("hyyyy",filter_value)
+        company_id = self.env.company
+        leads = self.search([('company_id', '=', company_id.id),
+                             ('user_id', '=', self.env.user.id)])
+        current_month = today.month
+        print("current_month", current_month)
+
+
+        if filter_value == "This month":
+            print("hyyy")
+
+
+
 
 
 

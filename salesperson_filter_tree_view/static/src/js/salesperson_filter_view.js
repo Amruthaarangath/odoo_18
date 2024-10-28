@@ -23,7 +23,7 @@ class CustomListController extends ListController{
     updateFilter(ev) {
             let a = this.state.partner_id.map(item => item.id)
             ev.matchingPartner = this.state.partner
-            console.log("a", ev.target.value)
+            console.log("aasdfgyhu", this.state)
 //            console.log("a", ev.matchingPartner)
             const updated_filters = this.env.searchModel.splitAndAddDomain(`[['user_id', 'ilike', '${ev.target.value}']]`)
     }

@@ -11,8 +11,8 @@
                     </center>
                     <div>Filter:
                         <div class="o_input d-flex flex-wrap gap-1 o_multi_record_selector">
-                            <select class="col-md-5" id="partner_id" name="Filter">
-                                <!--                            <t t-log="state.partner_id"/>-->
+                            <select class="col-md-5" id="filter" name="Filter" t-ref="dataFilter" t-on-change="filterDasboard" t-model="state.filter">
+                                <t t-log ="state"/>
                                 <option value="">select...</option>
                                 <option>This year</option>
                                 <option>This quater</option>
@@ -44,7 +44,7 @@
                                         <div class="stat_count_lead"
                                              style="font-size: 17px;">
                                             <span id="templates">
-                                                <div id="my_lead"/>
+                                                <div id="my_lead" t-ref="leadData" />
                                             </span>
                                         </div>
                                         <div class="stat-head"
@@ -175,8 +175,7 @@
                                         <div class="stat_count_opp"
                                              style="font-size: 17px;">
                                             <span id="templates">
-                                                <div id="lead_ratio"/>
-                                            </span>
+                                                <div id="lead_lost_ratio"/></span>:<span><div id="lead_won_ratio"/></span>
                                         </div>
                                         <div class="stat-head"
                                              style="font-size: 14px;">Won or Lost ratio
@@ -229,33 +228,43 @@
                              data-stacked="false" data-border-width="2"
                              data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
                              data-snippet="s_chart" data-name="Chart">
-                            <canvas id="table_chart" style="box-sizing: border-box;" width="456" height="228"/>
+                            <canvas id="table_chart"/>
                             <!--                        <table class="table report_border table-hover table-striped">-->
-                            <table class="table report_border table-hover table-striped">
-                                <tr>
-                                    <th>Months</th>
-                                    <th>Leads</th>
-                                </tr>
-                                <div>
-                                    <tr>
-                                        <td>
-                                            <tr t-foreach="state.month" t-as="item" t-key="item">
-                                                <td>
-                                                    <span>
-                                                        <t t-esc="item"/>
-                                                    </span>
+                            <table border="5" cellpadding="5" cellspacing="5" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;" class="table report_border table-hover table-striped">
+                                <row>
+                                    <tr align="center" style="min-width: 590px;">
+                                        <th align="center" style="min-width: 590px;">Months</th>
+                                        <th align="center" style="min-width: 590px;">Leads</th>
+                                    </tr>
+                                    <div>
+                                        <row>
+                                            <tr>
+                                                <td align="center" style="min-width: 590px;">
+                                                    <row>
+                                                        <tr t-foreach="state.month" t-as="item" t-key="item">
+                                                            <td align="center" style="min-width: 590px;">
+                                                                <span>
+                                                                    <row>
+                                                                        <t t-esc="item"/>
+                                                                    </row>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </row>
+                                                </td>
+                                                <td align="center" style="min-width: 590px;">
+                                                    <tr t-foreach="state.monthLead" t-as="item" t-key="item">
+                                                        <span>
+                                                            <row>
+                                                                <t t-esc="item"/>
+                                                            </row>
+                                                        </span>
+                                                    </tr>
                                                 </td>
                                             </tr>
-                                        </td>
-                                        <td>
-                                            <tr t-foreach="state.monthLead" t-as="item" t-key="item">
-                                                <span>
-                                                    <t t-esc="item"/>
-                                                </span>
-                                            </tr>
-                                        </td>
-                                    </tr>
-                                </div>
+                                        </row>
+                                    </div>
+                                </row>
                             </table>
                         </div>
                     </div>

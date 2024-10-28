@@ -1,65 +1,62 @@
 /**@odoo-module **/
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { Component, onWillStart, useEffect, useState} from  "@odoo/owl";
+import { Component, onWillStart, useEffect, useState, useRef} from  "@odoo/owl";
 const actionRegistry = registry.category("actions");
 import { _t } from "@web/core/l10n/translation";
 import { session } from "@web/session";
 import { user } from "@web/core/user";
 
 
+
 class CrmDashboard extends Component {
    setup() {
          super.setup()
          this.orm = useService('orm')
-//         this.user = useService('user')
-         this._fetch_data()
          this.action = useService("action");
          this.doughnut = null;
          this.pie = null;
          this.line = null;
          this.bar = null;
+         this.dataFilter = useRef("dataFilter");
+         this.fetchData = useRef("leadData");
+         console.log("this.dataFilter",(this.dataFilter).value)
 
-
-         useEffect(() => {
-            this.renderDoughnutChart();
-            this.renderPieChart();
-            this.renderLineChart();
-            this.renderBarChart();
-
-            });
          this.state = useState({
             month : [],
-            monthLead : []
+            monthLead : [],
+            filter: '',
         });
 
         onWillStart(async ()=>{
-            await this.orm.call("crm.lead", "get_table_data",  [], {}).then((result) => {
-                var table = document.getElementById('table_chart')
-                this.state.month = result.final_month_name
-                this.state.monthLead = result.leads_month_length
-                console.log("kkkk",result.final_month_name)
-                console.log("kkkoiugfdsdfgvk",result.leads_month_length)
-            })
-    });
+//            this._fetch_data()
+//            this.dashboardUsers();
+//            this.renderDoughnutChart();
+//            this.renderPieChart();
+//            this.renderLineChart();
+//            this.renderBarChart();
+//            this.renderTableChart();
+            this.filterDasboard();
+        });
+
    }
 
    _fetch_data(){
    var self = this;
-   this.orm.call("crm.lead", "get_tiles_data", [], {}).then(function(result){
-          ` document.getElementById('my_lead').append( result.total_leads );
+   this.orm.call("crm.lead", "get_tiles_data", [], {}).then((result)=> {
+           document.getElementById('my_lead').append( result.total_leads );
            document.getElementById("my_opportunity").append(result.total_opportunity);
            document.getElementById("revenue").append(result.currency + result.expected_revenue);
            document.getElementById("revenue_total").append(result.currency + result.revenue_total);
-           document.getElementById("lead_ratio").append(result.lead_ratio);`
+           document.getElementById("lead_ratio").append(result.lead_ratio);
            });
 //        }
-       };
-//    async dashboardUsers(){
-//           await normalUser = user.hasGroup("sales_team.group_sale_salesman"),
-//           await CrmUser = user.hasGroup("sales_team.group_sale_salesman_all_leads"),
-//           await CrmManager = user.hasGroup("sales_team.group_sale_manager"),
-//    }
+       }
+    async dashboardUsers(){
+           this.normalUser = await user.hasGroup("sales_team.group_sale_salesman");
+           this.CrmUser = await user.hasGroup("sales_team.group_sale_salesman_all_leads");
+           this.CrmManager = await user.hasGroup("sales_team.group_sale_manager");
+    }
 
        async leadTile() {
         this.action.doAction({
@@ -84,17 +81,11 @@ class CrmDashboard extends Component {
         }
         async renderDoughnutChart(){
             await this.orm.call("crm.lead", "get_doughnut_data",  [], {}).then((result)=> {
-//                var doughnut = document.getElementById('doughnut_chart')
-//                if (this.doughnut != null){
-//                    this.doughnut.destroy()
-//                }
-
                     var doughnut = new Chart(document.getElementById('doughnut_chart'), {
                     type: "doughnut",
                     data: {
                         labels: result.medium_name,
                         datasets: [{
-    //                        data: [result.leads_medium],
                             backgroundColor: ["#1f77b4", "#dddddd", "blue", "green", "red"],
                             data: result.leads_medium
                         }]
@@ -120,16 +111,10 @@ class CrmDashboard extends Component {
                     },
                     }
                     });
-//                  }
                 })
-    //        }
         }
     async renderPieChart(){
          await this.orm.call("crm.lead", "get_pie_data",  [], {}).then((result)=> {
-//            if (this.pie != null){
-//                this.pie.destroy();
-//                }
-//            else{
             var pie = new Chart(document.getElementById('pie_chart'), {
             type: "pie",
             data: {
@@ -158,14 +143,10 @@ class CrmDashboard extends Component {
                 },
                 }
         });
-//        }
         })
     }
     async renderLineChart(){
         await this.orm.call("crm.lead", "get_line_data",  [], {}).then((result)=> {
-//        if (this.line != null){
-//            this.line.destroy();
-//            }
 
         var line = new Chart(document.getElementById('line_chart'), {
             type: "line",
@@ -201,10 +182,7 @@ class CrmDashboard extends Component {
         var self = this;
         await this.orm.call("crm.lead", "get_bar_data",  [], {}).then(function(result){
         console.log('this',self)
-//        if (self.bar != null ){
-//            self.bar.destroy();
-//            }
-//        else{
+
         var bar = new Chart(document.getElementById('bar_chart'), {
         type: "bar",
         data: {
@@ -232,9 +210,43 @@ class CrmDashboard extends Component {
         },
         }
     });
-//    }
     })
     }
+
+    async renderTableChart(){
+         await this.orm.call("crm.lead", "get_table_data",  [], {}).then((result) => {
+                var table = document.getElementById('table_chart')
+                this.state.month = result.final_month_name
+                this.state.monthLead = result.leads_month_length
+            })
+    }
+
+
+    async filterDasboard(){
+        const filter_value = this.dataFilter.el.value;
+        console.log("mnewww",filter_value)
+//        const filter_value = document.getElementById('filter').value;
+        await this.orm.call("crm.lead", "get_filter_data",  [filter_value], {}).then((result) => {
+//            const filter_value = document.getElementById('filter').value;
+//            console.log("filter",filter)
+            var today =  luxon.DateTime.now();
+            console.log("today",today.c)
+            var this_month = (today.c).month
+            console.log("this_month",this_month)
+            var this_year =  (today.c).year
+            console.log("this_year",this_year)
+
+        });
+
+//        if (this.user == this.CrmUser || this.user == this.CrmManager){
+////            if (filter == "This month"){
+////                console.log("mmmooonnthhhh");
+////            }
+//
+//
+//        }
+        }
+//    }
 
 }
 CrmDashboard.template = "crm_dashboard.CrmDashboard";
