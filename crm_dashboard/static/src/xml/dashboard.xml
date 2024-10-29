@@ -11,13 +11,14 @@
                     </center>
                     <div>Filter:
                         <div class="o_input d-flex flex-wrap gap-1 o_multi_record_selector">
-                            <select class="col-md-5" id="filter" name="Filter" t-ref="dataFilter" t-on-change="filterDasboard" t-model="state.filter">
+                            <select class="col-md-5" id="filter" name="Filter" t-on-change="filterDasboard" t-model="state.filter">
                                 <t t-log ="state"/>
-                                <option value="">select...</option>
-                                <option>This year</option>
-                                <option>This quater</option>
-                                <option>This month</option>
-                                <option>This week</option>
+<!--                                <option value="">select...</option>-->
+                                <option value="all">All</option>
+                                <option value="this_year">This year</option>
+                                <option value="this_quater">This quater</option>
+                                <option value="this_month">This month</option>
+                                <option value="this_week">This week</option>
                             </select>
                         </div>
                     </div>
@@ -44,7 +45,11 @@
                                         <div class="stat_count_lead"
                                              style="font-size: 17px;">
                                             <span id="templates">
-                                                <div id="my_lead" t-ref="leadData" />
+                                                <div id="my_lead"/>
+                                                    <t t-if="state.fetch_data">
+                                                        <t t-out ="state.fetch_data.total_leads"/>
+                                                        <t t-log ="state.fetch_data.total_leads"/>
+                                                    </t>
                                             </span>
                                         </div>
                                         <div class="stat-head"
@@ -78,6 +83,10 @@
                                              style="font-size: 17px;">
                                             <span id="templates">
                                                 <div id="my_opportunity"/>
+                                                <t t-if="state.fetch_data">
+                                                    <t t-out ="state.fetch_data.total_opportunity"/>
+                                                    <t t-log ="state.fetch_data.total_opportunity"/>
+                                                </t>
                                             </span>
                                         </div>
                                         <div class="stat-head"
@@ -111,6 +120,10 @@
                                              style="font-size: 17px;">
                                             <span id="templates">
                                                 <div id="revenue"/>
+                                                <t t-if="state.fetch_data">
+                                                    <t t-out ="state.fetch_data.expected_revenue"/>
+                                                    <t t-log ="state.fetch_data.expected_revenue"/>
+                                                </t>
                                             </span>
                                         </div>
                                         <div class="stat-head"
@@ -144,6 +157,10 @@
                                              style="font-size: 17px;">
                                             <span id="templates">
                                                 <div id="revenue_total"/>
+                                                <t t-if="state.fetch_data">
+                                                    <t t-out ="state.fetch_data.revenue_total"/>
+                                                    <t t-log ="state.fetch_data.revenue_total"/>
+                                                </t>
                                             </span>
                                         </div>
                                         <div class="stat-head"
@@ -175,7 +192,12 @@
                                         <div class="stat_count_opp"
                                              style="font-size: 17px;">
                                             <span id="templates">
-                                                <div id="lead_lost_ratio"/></span>:<span><div id="lead_won_ratio"/></span>
+<!--                                                <div id="lead_won_ratio"/>-->
+<!--                                                    <t t-if="state.fetch_data">-->
+<!--                                                        <t t-out ="state.fetch_data.lead_won_ratio"/>-->
+<!--                                                        <t t-log ="state.fetch_data.lead_won_ratio"/>-->
+<!--                                                    </t>-->
+                                            </span>
                                         </div>
                                         <div class="stat-head"
                                              style="font-size: 14px;">Won or Lost ratio
@@ -184,6 +206,22 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <!-- bar_chart -->
+                <div class="col-md-6">
+                    <div class="s_chart" data-type="bar" data-legend-position="none" data-tooltip-display="false"
+                         data-stacked="false" data-border-width="2"
+                         data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
+                         data-snippet="s_chart" data-name="Chart">
+                        <canvas id="bar_chart" style="box-sizing: border-box;" width="456" height="228"/>
+                    </div>
+                </div>
+                <!-- line_chart -->
+                <div class="col-md-6">
+                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
+                         data-stacked="false" data-border-width="2">
+                        <canvas id="line_chart" style="box-sizing: border-box;" width="456" height="228"/>
                     </div>
                 </div>
                 <!-- doughnut_chart -->
@@ -197,33 +235,18 @@
                 </div>
                 <!-- pie_chart -->
                 <div class="col-md-6">
-                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
+                    <div class="s_chart" data-type="pie" data-legend-position="none" data-tooltip-display="false"
                          data-stacked="false" data-border-width="2"
                          data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
                          data-snippet="s_chart" data-name="Chart">
                         <canvas id="pie_chart" style="box-sizing: border-box;" width="456" height="228"/>
                     </div>
                 </div>
-                <!-- line_chart -->
-                <div class="col-md-6">
-                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
-                         data-stacked="false" data-border-width="2">
-                        <canvas id="line_chart" style="box-sizing: border-box;" width="456" height="228"/>
-                    </div>
-                </div>
-                <!-- bar_chart -->
-                <div class="col-md-6">
-                    <div class="s_chart" data-type="doughnut" data-legend-position="none" data-tooltip-display="false"
-                         data-stacked="false" data-border-width="2"
-                         data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
-                         data-snippet="s_chart" data-name="Chart">
-                        <canvas id="bar_chart" style="box-sizing: border-box;" width="456" height="228"/>
-                    </div>
-                </div>
+
                 <!-- table_chart -->
                 <div style="box-sizing: border-box; display: block; height: 1000px; width: 10.00px;">
                     <div class="col-md-6">
-                        <div class="s_chart" data-type="doughnut" data-legend-position="none"
+                        <div class="s_chart" data-type="table" data-legend-position="none"
                              data-tooltip-display="false"
                              data-stacked="false" data-border-width="2"
                              data-data='{"labels":["First","Second"],"datasets":[{"label":"One","data":["25","75"],"backgroundColor":["o-color-3","o-color-2"],"borderColor":["",""]}]}'
