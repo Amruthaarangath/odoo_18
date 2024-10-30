@@ -8,50 +8,43 @@ import { session } from "@web/session";
 import { user } from "@web/core/user";
 
 
-
 class CrmDashboard extends Component {
    setup() {
          super.setup()
          this.orm = useService('orm')
          this.action = useService("action");
-//         this.doughnut = null;
-//         this.pie = null;
-//         this.line = null;
-//         this.bar = null;
-//         this.table = null;
-         this.dataFilter = useRef("dataFilter");
+         this.barChart = useRef("barChart");
+         this.lineChart = useRef("lineChart")
          this.fetchData = useRef("leadData");
+         this.doughnutChart = useRef("doughnutChart");
+         this.pieChart = useRef("pieChart");
+         this.tableChart = useRef("tableChart");
          console.log("this.dataFilter",(this.dataFilter))
 
-   onWillUnmount(async() => {
-
-            this.renderBarChart();
-            this.renderLineChart();
-            this.renderDoughnutChart();
-            this.renderPieChart();
-//            this.renderTableChart();
-            this.filterDasboard();
-   });
-
-         this.state = useState({
+   this.state = useState({
             month : [],
             monthLead : [],
             filter: '',
             fetch_data:{},
         });
 
+   onWillUnmount(async() => {
+            this.renderBarChart();
+            this.renderLineChart();
+            this.renderDoughnutChart();
+            this.renderPieChart();
+            this.renderTableChart();
+            this.filterDasboard();
+   });
+
         onWillStart(async ()=>{
-              this._fetch_data()
-//            this.renderBarChart();
-//            this.renderLineChart();
-//            this.renderDoughnutChart();
-////            this._fetch_data()
-//            this.renderPieChart();
-//            this.renderTableChart();
-//            this.filterDasboard();
+              this._fetch_data();
+            this.renderBarChart();
+            this.renderLineChart();
+            this.renderDoughnutChart();
+            this.renderPieChart();
+            this.renderTableChart();
         });
-
-
    }
 
    _fetch_data(){
@@ -59,13 +52,7 @@ class CrmDashboard extends Component {
    const filter_value = this.state.filter
    this.orm.call("crm.lead", "get_tiles_data", [filter_value], {}).then((result)=> {
            this.state.fetch_data = result
-//           document.getElementById('my_lead').append( result.total_leads );
-//           document.getElementById("my_opportunity").append(result.total_opportunity);
-//           document.getElementById("revenue").append(result.currency + result.expected_revenue);
-//           document.getElementById("revenue_total").append(result.currency + result.revenue_total);
-//           document.getElementById("lead_ratio").append(result.lead_ratio);
            });
-//        }
        }
     async dashboardUsers(){
            this.normalUser = await user.hasGroup("sales_team.group_sale_salesman");
@@ -94,18 +81,15 @@ class CrmDashboard extends Component {
             });
 
         }
-
         async renderBarChart(){
         var self = this;
         if (this.bar){
-            console.log("barrrrrrrrrrrrr")
             this.bar.destroy()
         }
             const filter_value = this.state.filter
             await this.orm.call("crm.lead", "get_bar_data",  [filter_value], {}).then(function(result){
-            console.log('this',self)
 
-            self.bar = new Chart(document.getElementById('bar_chart'), {
+            self.bar = new Chart(self.barChart.el.id, {
             type: "bar",
             data: {
                 labels: ["leads","opportunities"],
@@ -143,7 +127,7 @@ class CrmDashboard extends Component {
         const filter_value = this.state.filter
         await this.orm.call("crm.lead", "get_line_data",  [filter_value], {}).then((result)=> {
 
-        self.line = new Chart(document.getElementById('line_chart'), {
+        self.line = new Chart(self.lineChart.el.id, {
             type: "line",
             data: {
                 labels: result.campaign_name,
@@ -169,7 +153,6 @@ class CrmDashboard extends Component {
             },
             }
         });
-//        }
         })
         }
 
@@ -180,7 +163,7 @@ class CrmDashboard extends Component {
         }
         const filter_value = this.state.filter
         await this.orm.call("crm.lead", "get_doughnut_data",  [filter_value], {}).then((result)=> {
-            self.doughnut = new Chart(document.getElementById('doughnut_chart'), {
+            self.doughnut = new Chart(self.doughnutChart.el.id, {
             type: "doughnut",
             data: {
                 labels: result.medium_name,
@@ -219,7 +202,7 @@ class CrmDashboard extends Component {
             }
          const filter_value = this.state.filter
          await this.orm.call("crm.lead", "get_pie_data",  [filter_value], {}).then((result)=> {
-            self.pie = new Chart(document.getElementById('pie_chart'), {
+            self.pie = new Chart(self.pieChart.el.id, {
             type: "pie",
             data: {
                 labels: result.activity_name,
@@ -252,79 +235,28 @@ class CrmDashboard extends Component {
 
     async renderTableChart(){
         var self = this;
-        if (this.table){
-            this.table.destroy()
-        }
          const filter_value = this.state.filter
          await this.orm.call("crm.lead", "get_table_data",  [filter_value], {}).then((result) => {
-                self.table = document.getElementById('table_chart')
+                self.table = self.tableChart.el.id
                 this.state.month = result.final_month_name
                 this.state.monthLead = result.leads_month_length
+                console.log(this.state)
             })
     }
-
-
     async filterDasboard(){
-        const filter_value = this.state.filter
-        await this.orm.call("crm.lead", "get_filter_data",  [filter_value], {}).then((result) => {
-            this.renderBarChart(),
-            this.renderLineChart(),
-            this.renderDoughnutChart(),
-            this.renderPieChart(),
-            this._fetch_data()
-//            this.renderTableChart()
-//            this.renderDoughnutChart()
+        if (this.user == this.CrmUser || this.user == this.CrmManager){
+            const filter_value = this.state.filter
+            await this.orm.call("crm.lead", "get_filter_data",  [filter_value], {}).then((result) => {
+                this.renderBarChart(),
+                this.renderLineChart(),
+                this.renderDoughnutChart(),
+                this.renderPieChart(),
+                this.renderTableChart(),
+                this._fetch_data()
 
-
-
-
-
-
-
-
-        });
-//            if (this.bar != null){
-//                this.bar.destroy()
-//            }
-//            else{
-
-//        }
-////            var self = this;
-//            this.orm.call("crm.lead", "get_tiles_data", [filter_value], {}).then((result)=> {
-//            this.state.fetch_data = result
-//           });
-//         }
-
-
-//        if (filter = null){
-//            console.log("hyy")
-//        }
-//        else{
-//            const filter_value = filter.value;
-//            await this.orm.call("crm.lead", "get_filter_data",  [filter_value], {}).then((result) => {
-//    //            const filter_value = document.getElementById('filter').value;
-//    //            console.log("filter",filter)
-//                var today =  luxon.DateTime.now();
-//                console.log("today",today.c)
-//                var this_month = (today.c).month
-//                console.log("this_month",this_month)
-//                var this_year =  (today.c).year
-//                console.log("this_year",this_year)
-
-////            });
-//            }
-
-
-//        if (this.user == this.CrmUser || this.user == this.CrmManager){
-////            if (filter == "This month"){
-////                console.log("mmmooonnthhhh");
-////            }
-//
-//
-//        }
+            });
+            }
         }
-//    }
-
 }
 CrmDashboard.template = "crm_dashboard.CrmDashboard";
 actionRegistry.add("crm_dashboard_tag", CrmDashboard);
