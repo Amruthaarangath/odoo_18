@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="return_button" inherit_id="portal.portal_sidebar"
+              name="Return Butoon">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <!--            <t t-foreach="delivery_orders" t-as="picking">-->
+            <!--                <t t-log="picking.state"/>-->
+            <!--                <div t-if="picking.state == 'done'">-->
+            <!--                    <a id="hidden_return_btn" class="badge rounded-pill text-bg-primary orders_label_text_align">-->
+            <!--        &lt;!&ndash;            <a class="btn btn-light text-bg-primary orders_label_text_align">&ndash;&gt;-->
+            <!--                        RETURN-->
+            <!--                    </a>-->
+            <!--                </div>-->
+            <!--            </t>-->
+<!--            <span class="btn-group flex-grow-1 mb-1 float-left">-->
+<!--                <t t-if="sale_order.state in ('sent','sale') and sum(sale_order.order_line.mapped('qty_delivered')) > 0">-->
+<!--                    <a class="btn btn-secondary btn-block"-->
+<!--                       style="color: #FFFFFF;"-->
+<!--                       id="hidden_box_btn">-->
+<!--                        <i class="fa fa-truck">Return</i>-->
+<!--                    </a>-->
+<!--                </t>-->
+<!--            </span>-->
+        </xpath>
+    </template>
+</odoo>

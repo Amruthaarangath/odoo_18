@@ -11,3 +11,5 @@ class ClearCart(http.Controller):
             for line in order.website_order_line:
                 line.unlink()
 
+
+

@@ -430,6 +430,12 @@ class CrmLead(models.Model):
                 leads_month.append((new_month_lead))
                 leads_month_length.append(len(new_month_lead))
 
+        for i in leads:
+            new_month_lead = leads.filtered(
+                lambda r: r.create_date.month == i.create_date.month)
+            leads_month.append((new_month_lead))
+            leads_month_length.append(len(new_month_lead))
+
         monthly_lead = set(leads_month)
         len_leads.append(len(leads_month))
 
