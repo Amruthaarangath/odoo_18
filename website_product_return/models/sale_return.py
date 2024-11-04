@@ -11,9 +11,6 @@ class ReturnOrder(models.Model):
     _order = "name"
     _description = "Return Order"
 
-    # @api.model
-    # def _get_default_name(self):
-    #     return self.env['ir.sequence'].get('sale.return')
 
     active = fields.Boolean('Active', default=True, help='Is active or not')
     name = fields.Char(string="Name",
@@ -102,7 +99,8 @@ class ReturnOrder(models.Model):
                      'wizard_id': return_pick_wizard.id,
                      'move_id': moves[0].id, 'to_refund': self.to_refund}
             self.env['stock.return.picking.line'].create(lines)
-            return_pick = return_pick_wizard._create_returns()
+            return_pick = list(return_pick_wizard.action_create_returns())
+            print("return_pick",return_pick)
             if return_pick:
                 return_pick = self.env['stock.picking'].browse(return_pick[0])
                 return_pick.update({'note': self.reason})
@@ -148,40 +146,8 @@ class ReturnOrder(models.Model):
                 rec.picking_count = self.env['stock.picking'].search_count(
                     [('return_order_pick', 'in', self.ids),
                      ('return_order_picking', '=', True)])
-    #
-    def action_view_picking(self):
-        """Function to view the stock picking transfers"""
-        action = self.env["ir.actions.actions"]._for_xml_id(
-            "stock.action_picking_tree_all")
 
-        pickings = self.mapped('stock_picking')
-        if not self.stock_picking:
-            pickings = self.env['stock.picking'].search(
-                [('return_order_pick', '=', self.id),
-                 ('return_order_picking', '=', True)])
-        if len(pickings) > 1:
-            action['domain'] = [('id', 'in', pickings.ids)]
-        elif pickings:
-            form_view = [(self.env.ref('stock.view_picking_form').id, 'form')]
-            if 'views' in action:
-                action['views'] = form_view + [(state, view) for state, view in
-                                               action['views'] if
-                                               view != 'form']
-            else:
-                action['views'] = form_view
-            action['res_id'] = pickings.id
-        # Prepare the context.
-        picking_id = pickings.filtered(
-            lambda l: l.picking_type_id.code == 'outgoing')
-        if picking_id:
-            picking_id = picking_id[0]
-        else:
-            picking_id = pickings[0]
-        action['context'] = dict(self._context,
-                                 default_partner_id=self.partner_id.id,
-                                 default_picking_type_id=picking_id.picking_type_id.id)
-        return action
-    #
+
     def action_view_delivery(self):
         """Function to view the delivery transfers"""
         action = self.env["ir.actions.actions"]._for_xml_id(
@@ -214,34 +180,3 @@ class ReturnOrder(models.Model):
                                  default_partner_id=self.partner_id.id,
                                  default_picking_type_id=picking_id.picking_type_id.id)
         return action
-    #
-    @api.onchange('sale_order', 'source_pick')
-    def onchange_sale_order(self):
-        """All the fields are updated according to the sale order"""
-        delivery = None
-        if self.sale_order:
-            self.partner_id = self.sale_order.partner_id
-
-            delivery = self.env['stock.picking'].search(
-                [('origin', '=', self.sale_order.name)])
-        if self.source_pick:
-            delivery = self.source_pick
-        if delivery:
-            product_ids = delivery.move_ids_without_package.mapped(
-                'product_id').ids
-            delivery = delivery.ids
-        else:
-            product_ids = self.sale_order.order_line.mapped('product_id').ids
-
-        return {'domain': {'source_pick': [('id', 'in', delivery)],
-                           'product_id': [('id', 'in', product_ids)]}}
-
-    @api.onchange('product_id')
-    def onchange_product_id(self):
-        """ Function for calculate done quantity"""
-        if self.product_id and self.source_pick:
-            moves = self.source_pick.mapped(
-                'move_ids_without_package').filtered(
-                lambda p: p.product_id == self.product_id)
-            if moves:
-                self.received_qty = sum(moves.mapped('quantity_done'))

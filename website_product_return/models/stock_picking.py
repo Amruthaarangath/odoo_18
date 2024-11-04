@@ -2,7 +2,22 @@
 
 from odoo import fields, models, api
 
-from odoo import fields, models
+
+class StockReturnPicking(models.TransientModel):
+    """Class for inherit stock return picking"""
+    _inherit = 'stock.return.picking'
+
+    def _create_returns(self):
+        """Function for creating stock return"""
+        new_picking, pick_type_id = super(StockReturnPicking,
+                                          self)._create_returns()
+        picking = self.env['stock.picking'].browse(new_picking)
+        if self.picking_id.return_order:
+            picking.write({'return_order_picking': False,
+                           'return_order': False,
+                           'return_order_pick': self.picking_id.return_order.id})
+            self.picking_id.return_order.write({'state': 'confirm'})
+        return new_picking, pick_type_id
 
 class StockPicking(models.Model):
     """Class for inherit stock picking to add fields"""

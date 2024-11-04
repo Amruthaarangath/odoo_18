@@ -19,13 +19,13 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_picking" type="object"
-                                class="oe_stat_button"
-                                icon="fa-pencil-square-o"
-                                invisible="picking_count == 0">
-                            <field name="picking_count" widget="statinfo"
-                                   string="Return Picking"/>
-                        </button>
+<!--                        <button name="action_view_picking" type="object"-->
+<!--                                class="oe_stat_button"-->
+<!--                                icon="fa-pencil-square-o"-->
+<!--                                invisible="picking_count == 0">-->
+<!--                            <field name="picking_count" widget="statinfo"-->
+<!--                                   string="Return Picking"/>-->
+<!--                        </button>-->
                         <button name="action_view_delivery" type="object"
                                 class="oe_stat_button"
                                 icon="fa-pencil-square-o"
@@ -63,13 +63,6 @@
                         <page string="Delivery Order" name="delivery_order">
                             <field name="source_pick"/>
                         </page>
-                        <page string="Return Picking" name="return_picking">
-                            <field name="stock_picking"/>
-                        </page>
-                        <page string="Other" name="other_info">
-                            <separator colspan="4" string="Other Datails"/>
-                            <field name="note" colspan="4" nolabel="1"/>
-                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -91,33 +84,33 @@
             </list>
         </field>
     </record>
-<!--Action for sale return search view-->
-    <record id="sale_return_view_search" model="ir.ui.view">
-        <field name="name">sale.return.view.search</field>
-        <field name="model">sale.return</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="sale_order" string="Sale order"/>
-                <field name="partner_id" string="Customer"/>
-                <field name="product_id" string="Product"/>
-                <filter string="Done" name="done"
-                        domain="[('state', '=', 'done')]" help="Done order"/>
-                <filter string="Archived" name="inactive"
-                        domain="[('active', '=', False)]"/>
-                <separator/>
-                <group expand="0" string="Group By">
-                    <filter string="Status" name="status"
-                            domain="[]" context="{'group_by':'state'}"/>
-                    <filter string="Sale Order" name="order"
-                            context="{'group_by':'sale_order'}"/>
-                    <filter string="Customer" name="customer"
-                            domain="[]" context="{'group_by':'partner_id'}"/>
-                    <filter string="Product" name="product"
-                            domain="[]" context="{'group_by':'product_id'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
+<!--&lt;!&ndash;&lt;!&ndash;Action for sale return search view&ndash;&gt;&ndash;&gt;-->
+<!--    <record id="sale_return_view_search" model="ir.ui.view">-->
+<!--        <field name="name">sale.return.view.search</field>-->
+<!--        <field name="model">sale.return</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search>-->
+<!--                <field name="sale_order" string="Sale order"/>-->
+<!--                <field name="partner_id" string="Customer"/>-->
+<!--                <field name="product_id" string="Product"/>-->
+<!--                <filter string="Done" name="done"-->
+<!--                        domain="[('state', '=', 'done')]" help="Done order"/>-->
+<!--                <filter string="Archived" name="inactive"-->
+<!--                        domain="[('active', '=', False)]"/>-->
+<!--                <separator/>-->
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Status" name="status"-->
+<!--                            domain="[]" context="{'group_by':'state'}"/>-->
+<!--                    <filter string="Sale Order" name="order"-->
+<!--                            context="{'group_by':'sale_order'}"/>-->
+<!--                    <filter string="Customer" name="customer"-->
+<!--                            domain="[]" context="{'group_by':'partner_id'}"/>-->
+<!--                    <filter string="Product" name="product"-->
+<!--                            domain="[]" context="{'group_by':'product_id'}"/>-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
 <!--Action for sale return-->
     <record id="action_sale_return" model="ir.actions.act_window">
         <field name="name">Sale Return</field>
