@@ -29,11 +29,12 @@ class CustomerRegistration(http.Controller):
             moves = moves.sorted('product_uom_qty', reverse=True)
             values.update({'state': 'draft'})
             ret_order = request.env['sale.return'].with_user(1).create(values)
-            moves[0].picking_id.return_order = ret_order.id
+            print("kkk",)
+            moves[0].picking_id = ret_order.id
             moves[0].picking_id.return_order_picking = False
         return request.redirect('/my/request-thank-you')
 
     @http.route('/my/request-thank-you', website=True, page=True, auth='public', csrf=False)
     def maintenance_request_thanks(self):
-        return request.render('website_return_management.customers_request_thank_page')
+        return request.render('website_product_return.customers_request_thank_page')
 

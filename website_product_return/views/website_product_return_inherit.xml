@@ -12,15 +12,15 @@
             <!--                    </a>-->
             <!--                </div>-->
             <!--            </t>-->
-<!--            <span class="btn-group flex-grow-1 mb-1 float-left">-->
-<!--                <t t-if="sale_order.state in ('sent','sale') and sum(sale_order.order_line.mapped('qty_delivered')) > 0">-->
-<!--                    <a class="btn btn-secondary btn-block"-->
-<!--                       style="color: #FFFFFF;"-->
-<!--                       id="hidden_box_btn">-->
-<!--                        <i class="fa fa-truck">Return</i>-->
-<!--                    </a>-->
-<!--                </t>-->
-<!--            </span>-->
+            <span class="btn-group flex-grow-1 mb-1 float-left">
+                <t t-if="sale_order.state in ('sent','sale') and sum(sale_order.order_line.mapped('qty_delivered')) > 0">
+                    <a class="badge rounded-pill text-bg-primary orders_label_text_align"
+                       style="color: #FFFFFF;"
+                       id="hidden_box_btn">
+                        <i class="fa fa-truck">Return</i>
+                    </a>
+                </t>
+            </span>
         </xpath>
     </template>
 </odoo>
