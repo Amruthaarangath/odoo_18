@@ -1,108 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<!--    Template for sale order portal return content-->
+    <!--    Template for sale order portal return content-->
     <template id="sale_order_portal_content_return"
               name="Sales Order Portal Content"
               inherit_id="sale.sale_order_portal_content">
         <xpath expr="//div[@id='introduction']/div[@id='intro_row']"
                position="replace">
             <span id="hidden_box" class="modal fade">
-                <div class="modal-dialog modal-content" tabindex="-1"
-                     role="dialog">
-                    <div class="modal-header">
-                        <h2 style="text-align:center; font-size 24px; font-weight:bold"
-                            class="o_default_snippet_text">Sale Return
-                        </h2>
-                        <button type="button" class="btn-close"
-                                data-bs-dismiss="modal"/>
+                <div class="modal-dialog modal-dialog-centered" style="height: 200px;width: 700px;">
+                    <div class="modal-content bg-white" style="height: 500px;width: 700px;">
+                        <header class="modal-header">
+                            <h4 class="modal-title" id="modalTitle">Sale Return</h4>
+                        </header>
+                        <form action="/sale_return" method="post" class="modal-body"
+                              id="o_website_form_result">
+                            <main class="modal-body">
+                                <div class="form-control">
+                                <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                                    <div class="col-6 d-block font-weight-bold">
+                                        Customer Name
+                                    </div>
+                                    <div class="col-6 d-block font-weight-bold">
+                                        Sale Order
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-6 align-middle">
+                                        <input type="text" readonly="1"
+                                               t-att-value="sale_order.partner_id.name"
+                                               name="partner"
+                                               class="form-control o_website_form_custom"
+                                               style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box; text-align: center;"/>
+
+                                    </div>
+                                    <div class="col-6 align-middle">
+                                        <input type="text"
+                                               style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box;text-align: center;"
+                                               t-att-value="sale_order.name"
+                                               name="order" readonly="1"
+                                               class="form-control o_website_form_custom"/>
+                                        <input type="text"
+                                               style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box;text-align: center;"
+                                               t-att-value="sale_order.id"
+                                               name="order_id"
+                                               class="form-control o_website_form_custom d-none"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <br/>
+                                </div>
+                                <div class="form-group row ">
+                                    <div class="col-6 d-block font-weight-bold">
+                                        Select Product
+                                    </div>
+                                    <div class="col-6 d-block font-weight-bold">
+                                        Quantity
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-6 align-middle">
+                                        <select class="form-control product"
+                                                id="product" name="product"
+                                                default="None"
+                                                style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box;text-align: center;">
+                                            <option value="none">None</option>
+                                            <t t-foreach="sale_order.order_line.mapped('product_id')"
+                                               t-as="product">
+                                                <option t-att-value='product.id'>
+                                                    <t t-esc="product.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 align-middle">
+                                        <input type="text"
+                                               style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box; text-align: center;"
+                                               value="0"
+                                               name="qty"
+                                               class="form-control o_website_form_custom"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12 d-block font-weight-bold">
+                                        Reason
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <textarea rows="5" cols="45"
+                                                  id="return_reason"
+                                                  name="reason"
+                                                  placeholder="Explain your Reason"/>
+                                    </div>
+                                </div>
+                                </div>
+                            </main>
+                        </form>
+                        <footer class="modal-footer">
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <button id='submit' form="o_website_form_result"
+                                            class="btn btn-primary">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </footer>
                     </div>
-                    <form action="/sale_return" method="post" class="modal-body"
-                          id="o_website_form_result">
-                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
-                            <div class="col-6 d-block font-weight-bold">
-                                Customer Name
-                            </div>
-                            <div class="col-6 d-block font-weight-bold">
-                                Sale Order
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-6 align-middle">
-                                <input type="text" readonly="1"
-                                       t-att-value="sale_order.partner_id.name"
-                                       name="partner"
-                                       class="form-control o_website_form_custom"
-                                       style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box; text-align: center;"/>
-
-                            </div>
-                            <div class="col-6 align-middle">
-                                <input type="text"
-                                       style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box;text-align: center;"
-                                       t-att-value="sale_order.name"
-                                       name="order" readonly="1"
-                                       class="form-control o_website_form_custom"/>
-                                <input type="text"
-                                       style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box;text-align: center;"
-                                       t-att-value="sale_order.id"
-                                       name="order_id"
-                                       class="form-control o_website_form_custom d-none"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <br/>
-                        </div>
-                        <div class="form-group row ">
-                            <div class="col-6 d-block font-weight-bold">
-                                Select Product
-                            </div>
-                            <div class="col-6 d-block font-weight-bold">
-                                Quantity
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-6 align-middle">
-                                <select class="form-control product"
-                                        id="product" name="product"
-                                        default="None"
-                                        style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box;text-align: center;">
-                                    <option value="none">None</option>
-                                    <t t-foreach="sale_order.order_line.mapped('product_id')"
-                                       t-as="product">
-                                        <option t-att-value='product.id'>
-                                            <t t-esc="product.name"/>
-                                        </option>
-                                    </t>
-                                </select>
-                            </div>
-                            <div class="col-6 align-middle">
-                                <input type="text"
-                                       style="color: #606060;box-shadow: none;padding-left: 0;font-size: 18px;border: 1px solid #aaa;box-sizing: border-box; text-align: center;"
-                                       value="0"
-                                       name="qty"
-                                       class="form-control o_website_form_custom"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12 d-block font-weight-bold">
-                                Reason
-                            </div>
-
-                            <div  class="form-control o_website_form_custom">
-                                <textarea rows="10" cols="45"
-                                          id="return_reason"
-                                          name="reason"
-                                          placeholder="Explain your Reason"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <button id='submit' form="o_website_form_result"
-                                        class="btn btn-secondary flex-grow-1 mb-1 d-none">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </span>
             <div class="row sale_return">
@@ -126,7 +129,7 @@
             </div>
         </xpath>
     </template>
-<!--&lt;!&ndash;Template sale return in portal&ndash;&gt;-->
+    <!--&lt;!&ndash;Template sale return in portal&ndash;&gt;-->
     <template id="portal_my_home_menu_sale_return"
               name="Portal layout : Return Order menu entry"
               inherit_id="portal.portal_breadcrumbs" priority="10">
@@ -141,7 +144,7 @@
             </li>
         </xpath>
     </template>
-<!--Template for return orders -->
+    <!--Template for return orders -->
     <template id="portal_my_home_sale_return" name="Show Return Order"
               customize_show="True"
               inherit_id="portal.portal_my_home" priority="25">
@@ -153,7 +156,7 @@
             </t>
         </xpath>
     </template>
-<!--Template for portal my returns tree-->
+    <!--Template for portal my returns tree-->
     <template id="portal_my_returns" name="Portal: My Sale Return">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
@@ -217,7 +220,7 @@
             </t>
         </t>
     </template>
-<!--Template for sale return page-->
+    <!--Template for sale return page-->
     <template id="portal_sale_return_page" name="Portal: My Sale Return"
               inherit_id="portal.portal_sidebar" primary="True">
         <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
@@ -353,20 +356,4 @@
             </div>
         </xpath>
     </template>
-<!--&lt;!&ndash;Inheriting sale order to add return count button&ndash;&gt;-->
-    <record id="view_order_form" model="ir.ui.view">
-        <field name="name">sale.order.view.form.website.return.management
-        </field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="action_open_returns" type="object"
-                        class="oe_stat_button" icon="fa-truck"
-                        invisible="return_order_count == 0">
-                    <field name="return_order_count" widget="statinfo"/>
-                </button>
-            </xpath>
-        </field>
-    </record>
 </odoo>

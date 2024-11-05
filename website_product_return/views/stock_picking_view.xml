@@ -10,7 +10,6 @@
                        invisible="return_order == 0"/>
                 <field name="return_order_pick"
                        invisible="return_order_pick == False"/>
-                <field name="return_order_picking" invisible="1"/>
             </field>
         </field>
     </record>
